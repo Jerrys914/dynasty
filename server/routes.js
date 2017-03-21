@@ -6,7 +6,6 @@ let authorization = base64.encode(process.env.USERNAME+':'+process.env.PASSWORD)
 
 module.exports = (app) => {
   app.get('/',(req, res)=> {
-    console.log('2017-03-15'.replace(/-/gi,''));
     app.use(express.static(path.join(__dirname, '/../client')));
     res.sendFile(path.join(__dirname, '/../client/index.html'))
   });
@@ -29,7 +28,7 @@ module.exports = (app) => {
     let d = new Date();
     let year = d.getFullYear() + '';
     let month = ((d.getMonth() + 1) <9) ? '0' + (d.getMonth() + 1) : (d.getMonth() + 1) + '';
-    let day = d.getDate() < 10 ? '0'+ d.getDate() : d.getDate()-1 + '';
+    let day = d.getDate() < 10 ? '0'+ d.getDate() : d.getDate() + '';
     let date = year + month + day;
 
     let options = {
@@ -40,7 +39,11 @@ module.exports = (app) => {
       }
     };
     const callback = (err, response, data) => {
-      res.send(JSON.parse(data))
+      if(data){
+        res.send(JSON.parse(data))
+      } else {
+        res.send(data)
+      }
     };
     request(options,callback);
   });

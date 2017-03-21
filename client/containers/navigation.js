@@ -13,8 +13,9 @@ export default class Navigation extends Component {
     return(
       <div>
         <Link to='/'>Home</Link><span>__</span>
-        <Link to='/playerStatsYTD'>Player Stats YTD</Link><span>__</span>
-        <Link to='/dailyStats'>Daily Stats</Link>
+        <Link to='/NFL'>Football</Link><span>__</span>
+        <Link to='/NBA'>Basketball</Link><span>__</span>
+        <Link to='/MLB'>Baseball</Link>
       </div>
     )
   }

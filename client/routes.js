@@ -1,8 +1,8 @@
 import React from 'react';
 import { Route, IndexRoute } from 'react-router';
 import App from './components/app';
-import DailyStats from './components/dailyStats.js';
-import SeasonStats from './components/playerStatsYTD.js';
+import DailyStats from './components/nba/dailyStats.js';
+import SeasonStats from './components/nba/playerStatsYTD.js';
 
 export default (
   <Route path= "/" component={App} >

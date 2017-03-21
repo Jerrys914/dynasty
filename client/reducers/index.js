@@ -1,10 +1,10 @@
 import { combineReducers } from 'redux';
-import SeasonStats from './playerStatsYTD.js';
-import DailyStats from './dailyStats.js';
+import NBASeasonStats from './playerStatsYTD.js';
+import NBADailyStats from './dailyStats.js';
 
 let rootReducer = combineReducers({
-  playerStatsYTD: SeasonStats,
-  statsForDay: DailyStats
+  nbaPlayerStatsYTD: NBASeasonStats,
+  nbaStatsForDay: NBADailyStats
 });
 
 export default rootReducer;
