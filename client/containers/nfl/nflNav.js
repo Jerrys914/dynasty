@@ -1,7 +1,7 @@
 import React ,{ Component} from 'react';
 import { Link } from 'react-router';
 
-export default class NBANav extends Component {
+export default class NFLNav extends Component {
   constructor(props){
     super(props);
   }
@@ -9,8 +9,8 @@ export default class NBANav extends Component {
   render(){
     return(
       <div>
-        <Link to='/NBA/PlayerStatsYTD'>Stats YTD</Link><span>__</span>
-        <Link to='/NBA/DailyStats'>Daily Stats</Link>
+        <Link to='/NFL/PlayerStatsYTD'>Stats YTD</Link><span>__</span>
+        <Link to='/NFL/DailyStats'>Daily Stats</Link>
       </div>
     )
   }
