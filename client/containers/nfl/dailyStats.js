@@ -59,26 +59,7 @@ class NBADailyStats extends Component {
   render() {
     return(
       <div>
-        <div><h1>Daily Stats</h1></div>
-        <table style={{border:"1px solid black"}}>
-          <tbody>
-            <tr>
-              <th>Player Name</th>
-              <th>Team</th>
-              <th>Number</th>
-              <th>Position</th>
-              <th>3pt</th>
-              <th>Pts</th>
-              <th>Reb</th>
-              <th>Ast</th>
-              <th>Blk</th>
-              <th>Stl</th>
-              <th>Tov</th>
-              <th>TotalPoints</th>
-            </tr>
-            {this.displayStats()}
-          </tbody>
-        </table>
+        Football Daily Stats
       </div>
     )
   }
