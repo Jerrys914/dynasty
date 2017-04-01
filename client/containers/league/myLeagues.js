@@ -16,15 +16,19 @@ class MyLeagues extends Component {
 
   componentWillReceiveProps(props) {
     console.log('New Props: ', props)
+    // this.props.getLeagues();
+    this.forceUpdate(); 
   }
 
   listLeagues(){
-    console.log('myLeagues: ',this.props.myLeagues)
-    return (
-      <div>
-        {this.props.myLeagues}
-      </div>
-    )
+    return this.props.myLeagues.map(league => { 
+      console.log('LEAGUE___ : ', league)
+      return (
+        <div>
+          {league.name}
+        </div>
+      )
+    })
   }
 
   render(){

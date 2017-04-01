@@ -127,10 +127,11 @@ module.exports = (app, passport) => {
 // League Routes
 //======================================================================================================================================
   app.get('/api/myLeagues', (req, res) => {
-    let leagues = LeagueModel.getLeaguesById(passport.user.id);
-    leagues = Promise.all([leagues]);
-  console.log('My LEagues!!!!!!!!!!: ', leagues)
-    res.send(leagues);
+    console.log('PASSPORT USER: ',passport.user)
+    let leagues = LeagueModel.getLeaguesById(passport.user.id)
+    Promise.resolve(leagues).then(leagues => {
+      res.send(leagues);
+    });
   })
   app.get('/api/createNewLeague', isLoggedIn, (req, res) => {
     console.log('Render New League Form');
@@ -139,8 +140,8 @@ module.exports = (app, passport) => {
   app.post('/api/createNewLeague', (req, res) => {
     console.log('req.body: ', req.body);
     console.log('User: ', passport.user);
-    LeagueModel.createNewLeague(req.body.leagueName);
-    // res.render('createNewLeague.ejs');
+    LeagueModel.createNewLeague(req.body.leagueName, passport.user.id);
+    res.redirect('/');
   })
 //======================================================================================================================================
 };

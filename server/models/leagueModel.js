@@ -7,16 +7,16 @@ const getLeaguesById = id => {
   }).then(yearId => {
     console.log('yearId: ', yearId)
     if(yearId.length === 0){
-      console.log('yearId: ', yearId[0])
-      return undefined;
+      return ['No Leagues Yet'];
     }
     else {
       return knex('Years').select('leagueId')
       .where({
-        id: yearId
+        id: yearId[yearId.length-1].yearID
       }).then(leagueId => {
+        console.log('leagueIds: ', leagueId)
         return knex('Leagues').where({
-          id: leagueId
+          id: leagueId[leagueId.length-1].leagueId
         }).then(leagues => {
           return leagues;
         })
@@ -34,8 +34,9 @@ const createNewLeague = (name, userId) => {
 
     return knex('Years').insert({year:year, leagueID:league[0]})
     .then(year => {
+      console.log('YEAR ID: ', year);
       console.log('league ID: ', league[0]);
-      return knex('Members').insert({yearID: year[0], leagueID: league[0], isComish:true})
+      return knex('Members').insert({yearID: year[0], userID: userId, isComish:true})
       .then(member => {
         console.log('Member: ', member);
       })
