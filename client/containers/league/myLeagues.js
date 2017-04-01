@@ -15,7 +15,14 @@ class MyLeagues extends Component {
   }
 
   listLeagues(){
-    return this.props.myLeagues.map(league => { 
+    return this.props.myLeagues.map(league => {
+      if(league.name === 'No Leagues Yet') {
+        return (
+          <div key={league.id}>
+            {league.name}
+          </div>
+        )
+      }
       return (
         <div key={league.id}>
           <Link to='/myTeams'>{league.name}</Link>

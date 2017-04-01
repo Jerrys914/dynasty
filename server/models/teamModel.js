@@ -8,8 +8,18 @@ const createTeam = (teamName, sport, memberId) => {
   }).then(team => {
     return team;
   });
+};
+
+const getTeamsByMemberId = memberId => {
+  return knex('Teams').where({
+    memberID: memberId
+  }).then(teams => {
+    console.log('TEAMS: ', teams);
+    return teams;
+  })
 }
 
 module.exports = {
-  createTeam
+  createTeam,
+  getTeamsByMemberId
 }

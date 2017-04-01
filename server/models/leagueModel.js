@@ -47,14 +47,17 @@ const getLeaguesByUserId = id => {
     })
   })
 }
-const createNewLeague = (name, userId) => {
+const createNewLeague = (name, user) => {
   return knex('Leagues').insert({name:name})
   .then(league => {
     return knex('Years').insert({year:year, leagueID:league[0]})
     .then(year => {
-      return knex('Members').insert({yearID: year[0], userID: userId, isComish:true})
+      return knex('Members').insert({yearID: year[0], userID: user.id, isComish:true})
       .then(member => {
-        TeamModel.createTeam()
+        console.log('MEMBER: ', member)
+        TeamModel.createTeam(user.username, 'football', member[0])
+        TeamModel.createTeam(user.username, 'basketball', member[0])
+        TeamModel.createTeam(user.username, 'baseball', member[0])
       })
     })
   })

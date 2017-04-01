@@ -2,7 +2,9 @@ let express = require('express');
 let path = require('path');
 let base64 = require('base-64');
 let request = require('request');
-let LeagueModel = require('./models/leagueModel.js')
+let LeagueModel = require('./models/leagueModel.js');
+let MemberModel = require('./models/memberModel.js');
+let TeamModel = require('./models/teamModel.js');
 let authorization = base64.encode(process.env.USERNAME+':'+process.env.PASSWORD);
 
 const isLoggedIn = (req, res, next) => {
@@ -127,37 +129,28 @@ module.exports = (app, passport) => {
 // League Routes
 //======================================================================================================================================
   app.get('/api/myLeagues', (req, res) => {
-    console.log('PASSPORT USER: ',passport.user)
     let leaguesArr = LeagueModel.getLeaguesById(passport.user.id)
-    console.log('LEAGUES ARRAY: ', leaguesArr )
     Promise.all([leaguesArr]).then(result => {
-      console.log('RESULT ROUTES: ', result)
       res.send(result[0]);
     })
-    // Promise.resolve(leaguesArr).then(leagues => {
-    //   console.log('LEAGUES+++++++++++: ', leagues)
-    //   Promise.all(leagues).then(leagues => {
-    //     let lgs = [];
-    //     leagues.forEach(league => {
-    //       console.log('*************: ', league)
-    //       lgs.push(league[0]);
-    //     })
-    //     Promise.all(lgs).then(L => {
-    //       console.log('lgs: ', L)
-    //       res.send(L)
-    //     });
-    //   })
-    // });
   })
+  
   app.get('/api/createNewLeague', isLoggedIn, (req, res) => {
-    console.log('Render New League Form');
     res.render('createNewLeague.ejs');
   })
   app.post('/api/createNewLeague', (req, res) => {
-    console.log('req.body: ', req.body);
-    console.log('User: ', passport.user);
-    LeagueModel.createNewLeague(req.body.leagueName, passport.user.id);
+    LeagueModel.createNewLeague(req.body.leagueName, passport.user);
     res.redirect('/');
+  })
+
+  app.get('/api/myTeams', (req, res) => {
+    let memberId = MemberModel.getMemberId(passport.user.id);
+    Promise.all([memberId]).then(id => {
+      let member = id[0][0];
+      TeamModel.getTeamsByMemberId(member.id).then(teams => {
+        res.send(teams);
+      })
+    })
   })
 //======================================================================================================================================
 };
