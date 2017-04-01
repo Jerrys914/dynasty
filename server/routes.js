@@ -2,14 +2,51 @@ let express = require('express');
 let path = require('path');
 let base64 = require('base-64');
 let request = require('request');
+let LeagueModel = require('./models/leagueModel.js')
 let authorization = base64.encode(process.env.USERNAME+':'+process.env.PASSWORD);
 
-module.exports = (app) => {
-  app.get('/',(req, res)=> {
+const isLoggedIn = (req, res, next) => {
+  if(req.isAuthenticated()) { //Check if the user has a valid session based on cookie
+    return next(); //If session continue
+  }
+  res.redirect('/api/login'); //Redirect to /api/login if no user session 
+};
+
+module.exports = (app, passport) => {
+
+// Login/Signup Routes
+//======================================================================================================================================
+  app.get('/', isLoggedIn, (req, res)=> {
     app.use(express.static(path.join(__dirname, '/../client')));
     res.sendFile(path.join(__dirname, '/../client/index.html'))
   });
 
+  app.get('/api/login',(req, res) => {
+    res.render('login.ejs', {message: req.flash('loginMessage')}); //Render views/login.ejs w/ flash message
+  });
+  app.post('/api/login',passport.authenticate('local-login',{
+    successRedirect: '/', //Redirect to '/' route
+    failureRedirect: '/api/login', //Redirect back to login page on failure
+    failureFlash : true //Allow flash messages
+  }));
+
+  app.get('/api/signup',(req, res) => {
+    res.render('signup.ejs', {message: req.flash('signupMessage')}); //Render views/signup.ejs w/ flash message
+  });
+  app.post('/api/signup', passport.authenticate('local-signup', { 
+    successRedirect: '/', //Redirect to '/' route
+    failureRedirect: '/api/signup', //Redirect back to signup page on failure
+    failureFlash: true //Allow flash messages
+  }));
+
+  app.get('/logout', (req, res) => {
+    req.logout(); //Delete session for user
+    res.redirect('/'); //Redirect to '/' which will redirect to /api/login
+  });
+//======================================================================================================================================
+
+// Data Routes
+//======================================================================================================================================
   app.get('/api/nba/playerStatsYTD', (req, res) => {
     let options = {
       url: 'https://www.mysportsfeeds.com/api/feed/pull/nba/2016-2017-regular/cumulative_player_stats.json',
@@ -85,5 +122,25 @@ module.exports = (app) => {
     };
     request(options,callback);
   });
+//======================================================================================================================================
 
+// League Routes
+//======================================================================================================================================
+  app.get('/api/myLeagues', (req, res) => {
+    let leagues = LeagueModel.getLeaguesById(passport.user.id);
+    leagues = Promise.all([leagues]);
+  console.log('My LEagues!!!!!!!!!!: ', leagues)
+    res.send(leagues);
+  })
+  app.get('/api/createNewLeague', isLoggedIn, (req, res) => {
+    console.log('Render New League Form');
+    res.render('createNewLeague.ejs');
+  })
+  app.post('/api/createNewLeague', (req, res) => {
+    console.log('req.body: ', req.body);
+    console.log('User: ', passport.user);
+    LeagueModel.createNewLeague(req.body.leagueName);
+    // res.render('createNewLeague.ejs');
+  })
+//======================================================================================================================================
 };

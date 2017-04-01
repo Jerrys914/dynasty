@@ -6,7 +6,7 @@ import ReduxPromise from 'redux-promise';
 import { Router, Route, hashHistory } from 'react-router';
 import reducers from './reducers';
 import routes from './routes.js';
-import Home from './components/home.js';
+import MyLeagues from './components/league/myLeagues.js';
 import NFLSeasonStats from './components/nfl/playerStatsYTD.js';
 import NFLDailyStats from './components/nfl/dailyStats.js';
 import NBASeasonStats from './components/nba/playerStatsYTD.js';
@@ -19,7 +19,7 @@ const createStoreWithMiddleware = applyMiddleware(ReduxPromise)(createStore);
 ReactDOM.render(
   <Provider store={createStoreWithMiddleware(reducers)}>
     <Router history={hashHistory}>
-      <Route path="/" component={Home} />
+      <Route path="/" component={MyLeagues} />
       <Route path='/NFL' component={NFL} />
       <Route path='/NBA' component={NBA} />
       <Route path='/MLB' component={NBA} />
