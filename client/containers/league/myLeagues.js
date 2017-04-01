@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import getLeagues from '../../actions/league/getLeagues.js';
+import { Link } from 'react-router';
 
 class MyLeagues extends Component {
   constructor(props) {
@@ -10,20 +11,14 @@ class MyLeagues extends Component {
   }
 
   componentWillMount(){
-    console.log('PROPS: ', this.props)
     this.props.getLeagues();
-  }
-
-  componentWillReceiveProps(props) {
-    console.log('New Props: ', props)
-    // this.forceUpdate(); 
   }
 
   listLeagues(){
     return this.props.myLeagues.map(league => { 
       return (
         <div key={league.id}>
-          {league.name}
+          <Link to='/myTeams'>{league.name}</Link>
         </div>
       )
     })

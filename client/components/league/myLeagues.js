@@ -3,7 +3,7 @@ import SeasonStats from '../../containers/nba/playerStatsYTD.js';
 import Nav from '../../containers/navigation.js';
 import MyLeagues from '../../containers/league/myLeagues.js';
 
-export default class Home extends Component {
+export default class MYLEAGUES extends Component {
   render() {
     return (
       <div>

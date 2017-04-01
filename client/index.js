@@ -13,6 +13,7 @@ import NBASeasonStats from './components/nba/playerStatsYTD.js';
 import NBADailyStats from './components/nba/dailyStats.js';
 import NBA from './components/nba/index.js';
 import NFL from './components/nfl/index.js';
+import MyTeams from './components/league/myTeams.js';
 
 const createStoreWithMiddleware = applyMiddleware(ReduxPromise)(createStore);
 
@@ -27,6 +28,7 @@ ReactDOM.render(
       <Route path="/NFL/DailyStats" component={NFLDailyStats} />
       <Route path="/NBA/PlayerStatsYTD" component={NBASeasonStats} />
       <Route path="/NBA/DailyStats" component={NBADailyStats} />
+      <Route path="/myTeams" component={MyTeams} />
     </Router>
   </Provider>
   , document.querySelector('.container')
