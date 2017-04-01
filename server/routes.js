@@ -128,10 +128,26 @@ module.exports = (app, passport) => {
 //======================================================================================================================================
   app.get('/api/myLeagues', (req, res) => {
     console.log('PASSPORT USER: ',passport.user)
-    let leagues = LeagueModel.getLeaguesById(passport.user.id)
-    Promise.resolve(leagues).then(leagues => {
-      res.send(leagues);
-    });
+    let leaguesArr = LeagueModel.getLeaguesById(passport.user.id)
+    console.log('LEAGUES ARRAY: ', leaguesArr )
+    Promise.all([leaguesArr]).then(result => {
+      console.log('RESULT ROUTES: ', result)
+      res.send(result[0]);
+    })
+    // Promise.resolve(leaguesArr).then(leagues => {
+    //   console.log('LEAGUES+++++++++++: ', leagues)
+    //   Promise.all(leagues).then(leagues => {
+    //     let lgs = [];
+    //     leagues.forEach(league => {
+    //       console.log('*************: ', league)
+    //       lgs.push(league[0]);
+    //     })
+    //     Promise.all(lgs).then(L => {
+    //       console.log('lgs: ', L)
+    //       res.send(L)
+    //     });
+    //   })
+    // });
   })
   app.get('/api/createNewLeague', isLoggedIn, (req, res) => {
     console.log('Render New League Form');

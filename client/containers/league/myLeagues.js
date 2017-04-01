@@ -6,7 +6,7 @@ import getLeagues from '../../actions/league/getLeagues.js';
 class MyLeagues extends Component {
   constructor(props) {
     super(props);
-    this.props.getLeagues();
+    // this.props.getLeagues();
   }
 
   componentWillMount(){
@@ -16,15 +16,13 @@ class MyLeagues extends Component {
 
   componentWillReceiveProps(props) {
     console.log('New Props: ', props)
-    // this.props.getLeagues();
-    this.forceUpdate(); 
+    // this.forceUpdate(); 
   }
 
   listLeagues(){
     return this.props.myLeagues.map(league => { 
-      console.log('LEAGUE___ : ', league)
       return (
-        <div>
+        <div key={league.id}>
           {league.name}
         </div>
       )
