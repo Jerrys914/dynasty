@@ -6,7 +6,10 @@ import getTeams from '../../actions/league/getTeams.js';
 class MyTeams extends Component {
   constructor(props){
     super(props);
-    this.props.getTeams();
+  }
+
+  componentWillMount(){
+    this.props.getTeams();    
   }
 
   displayTeams(){
