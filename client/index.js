@@ -4,6 +4,7 @@ import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 import ReduxPromise from 'redux-promise';
 import { Router, Route, hashHistory } from 'react-router';
+import { composeWithDevTools } from 'redux-devtools-extension';
 import reducers from './reducers';
 import routes from './routes.js';
 import MyLeagues from './components/league/myLeagues.js';
@@ -15,10 +16,17 @@ import NBA from './components/nba/index.js';
 import NFL from './components/nfl/index.js';
 import MyTeams from './components/league/myTeams.js';
 
-const createStoreWithMiddleware = applyMiddleware(ReduxPromise)(createStore);
+// const createStoreWithMiddleware = createStore(devToolsEnhancer({
+//   applyMiddleware(ReduxPromise);
+// }); 
+
+const createStoreWithMiddleware = createStore(reducers, composeWithDevTools(
+  applyMiddleware(ReduxPromise),
+  // other store enhancers if any
+));
 
 ReactDOM.render(
-  <Provider store={createStoreWithMiddleware(reducers)}>
+  <Provider store={createStoreWithMiddleware}>
     <Router history={hashHistory}>
       <Route path="/" component={MyLeagues} />
       <Route path='/NFL' component={NFL} />

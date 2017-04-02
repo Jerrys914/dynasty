@@ -12,7 +12,7 @@ export default class Navigation extends Component {
   render(){
     return(
       <div>
-        <Link to='/'>My Leagues</Link><span>__</span>
+        <Link to='/'>My Leagues</Link>
       </div>
     )
   }
