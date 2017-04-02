@@ -51,7 +51,7 @@ const applyBonus = player => {
   return 0;
 };
 
-const sortByPoints = playersArr => {
+const sortByTotalPoints = playersArr => {
   let sortedArr = playersArr.sort((playerA,playerB) => {
     return playerB.totalPoints - playerA.totalPoints;
   });
@@ -77,12 +77,87 @@ const sortByName = playersArr => {
     sortedBy: 'Name',
     sorted: sortedArr
   }
+};
+const sortBy3pt = playersArr => {
+  let sortedArr = playersArr.sort((playerA,playerB) => {
+    return playerB['3pt'] - playerA['3pt'];
+  });
+  return {
+    sortedBy: 'Points',
+    sorted: sortedArr
+  }
+};
+const sortByPoints = playersArr => {
+  let sortedArr = playersArr.sort((playerA,playerB) => {
+    return playerB.Pts - playerA.Pts;
+  });
+  return {
+    sortedBy: 'Points',
+    sorted: sortedArr
+  }
+};
+const sortByAssists = playersArr => {
+  let sortedArr = playersArr.sort((playerA,playerB) => {
+    return playerB.Ast - playerA.Ast;
+  });
+  return {
+    sortedBy: 'Points',
+    sorted: sortedArr
+  }
+};
+const sortByRebounds = playersArr => {
+  let sortedArr = playersArr.sort((playerA,playerB) => {
+    return playerB.Reb - playerA.Reb;
+  });
+  return {
+    sortedBy: 'Points',
+    sorted: sortedArr
+  }
+};
+const sortByBlocks = playersArr => {
+  let sortedArr = playersArr.sort((playerA,playerB) => {
+    return playerB.Blk - playerA.Blk;
+  });
+  return {
+    sortedBy: 'Points',
+    sorted: sortedArr
+  }
+};
+const sortBySteals = playersArr => {
+  let sortedArr = playersArr.sort((playerA,playerB) => {
+    return playerB.Stl - playerA.Stl;
+  });
+  return {
+    sortedBy: 'Points',
+    sorted: sortedArr
+  }
+};
+const sortByTurnovers = playersArr => {
+  let sortedArr = playersArr.sort((playerA,playerB) => {
+    return playerB.Tov - playerA.Tov;
+  });
+  console.log('UTILS SORTED ARRAY: ', sortedArr)
+  return {
+    sortedBy: 'Points',
+    sorted: sortedArr
+  }
+};
+
+const sortBy = {
+  name: sortByName,
+  '3pt': sortBy3pt,
+  points: sortByPoints,
+  assists: sortByAssists,
+  rebounds: sortByRebounds,
+  blocks: sortByBlocks,
+  steals: sortBySteals,
+  turnovers: sortByTurnovers,
+  totalPoints: sortByTotalPoints
 }
 
 export default {
   getPlayerInfo,
   applyBonus,
   totalPointsGenerator,
-  sortByPoints,
-  sortByName
+  sortBy
 };

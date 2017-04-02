@@ -6,6 +6,10 @@ export default function(state=[], action){
         return state;
       }
       return action.payload.data.dailyplayerstats;
+    case 'SORT_NBA_PLAYERS_DAILY':
+      if(action.payload){
+        return action.payload
+      }
   }
   return state;
 }

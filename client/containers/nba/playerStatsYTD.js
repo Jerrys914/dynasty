@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import getNBAPlayerStatsYTD from '../../actions/nba/playerStatsYTD.js';
 import PlayerUtils from '../../utils/nbaPlayerUtils.js';
-import SortPlayers from '../../actions/league/sortPlayers.js';
+import SortPlayers from '../../actions/nba/sortPlayersYTD.js';
 
 class PlayerStatsYTD extends Component {
   constructor(props) {
@@ -31,7 +31,7 @@ class PlayerStatsYTD extends Component {
         this.state.players.push(newPlayer);
         newPlayer.totalPoints = PlayerUtils.totalPointsGenerator(newPlayer) + PlayerUtils.applyBonus(newPlayer);
       });
-      this.state.players = PlayerUtils.sortByPoints(this.state.players).sorted; 
+      this.state.players = PlayerUtils.sortBy['totalPoints'](this.state.players).sorted; 
       console.log('State Players Array: ',this.state.players)
     } else {
       if(this.props.NBAPlayerStatsYTD.sorted){
@@ -70,18 +70,18 @@ class PlayerStatsYTD extends Component {
         <table>
         <tbody>
           <tr>
-            <th onClick={() =>{this.props.SortPlayers(PlayerUtils.sortByName(this.state.players)); this.render()}}>Player Name</th>
-            <th >Team</th>
+            <th onClick={() =>{this.props.SortPlayers(PlayerUtils.sortBy['name'](this.state.players))}}>Player Name</th>
+            <th>Team</th>
             <th>Number</th>
             <th>Position</th>
-            <th>3pt</th>
-            <th>Pts</th>
-            <th>Reb</th>
-            <th>Ast</th>
-            <th>Blk</th>
-            <th>Stl</th>
-            <th>Tov</th>
-            <th onClick={()=>{this.props.SortPlayers(PlayerUtils.sortByPoints(this.state.players)); this.render()}}>TotalPoints</th>
+            <th onClick={() =>{this.props.SortPlayers(PlayerUtils.sortBy['3pt'](this.state.players))}}>3pt</th>
+            <th onClick={() =>{this.props.SortPlayers(PlayerUtils.sortBy['points'](this.state.players))}}>Pts</th>
+            <th onClick={() =>{this.props.SortPlayers(PlayerUtils.sortBy['rebounds'](this.state.players))}}>Reb</th>
+            <th onClick={() =>{this.props.SortPlayers(PlayerUtils.sortBy['assists'](this.state.players))}}>Ast</th>
+            <th onClick={() =>{this.props.SortPlayers(PlayerUtils.sortBy['blocks'](this.state.players))}}>Blk</th>
+            <th onClick={() =>{this.props.SortPlayers(PlayerUtils.sortBy['steals'](this.state.players))}}>Stl</th>
+            <th onClick={() =>{this.props.SortPlayers(PlayerUtils.sortBy['turnovers'](this.state.players))}}>Tov</th>
+            <th onClick={() =>{this.props.SortPlayers(PlayerUtils.sortBy['totalPoints'](this.state.players))}}>TotalPoints</th>
           </tr>
             {this.displayStats()}
           </tbody>

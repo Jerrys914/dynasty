@@ -5,7 +5,7 @@ export default function(state=[], action) {
         console.log('ACTION NBA YTD:', action)
         return action.payload.data.cumulativeplayerstats;
       }
-    case 'SORT_NBA_PLAYERS':
+    case 'SORT_NBA_PLAYERS_YTD':
       if(action.payload){
         console.log('ACTION NBA YTD SORTED:', action)
         return action.payload
