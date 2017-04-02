@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import getNBAPlayerStatsYTD from '../../actions/nba/playerStatsYTD.js';
+import getNFLPlayerStatsYTD from '../../actions/nfl/playerStatsYTD.js';
 import PlayerUtils from '../../utils/nbaPlayerUtils.js';
 
 class PlayerStatsYTD extends Component {
@@ -13,7 +13,7 @@ class PlayerStatsYTD extends Component {
   }
 
   componentWillMount(props){
-  
+    this.props.getNFLPlayerStatsYTD();
   }
 
   displayStats(){
@@ -36,7 +36,7 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => {
-  return bindActionCreators({getNBAPlayerStatsYTD}, dispatch);
+  return bindActionCreators({getNFLPlayerStatsYTD}, dispatch);
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(PlayerStatsYTD);

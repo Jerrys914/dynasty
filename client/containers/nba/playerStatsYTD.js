@@ -54,7 +54,7 @@ class PlayerStatsYTD extends Component {
         <table>
         <tbody>
           <tr>
-            <th>Player Name</th>
+            <th onClick={() =>{console.log('PLAYER NAME')}}>Player Name</th>
             <th>Team</th>
             <th>Number</th>
             <th>Position</th>

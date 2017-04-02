@@ -41,7 +41,7 @@ module.exports = (app, passport) => {
     failureFlash: true //Allow flash messages
   }));
 
-  app.get('/logout', isLoggedIn, (req, res) => {
+  app.get('/api/logout', isLoggedIn, (req, res) => {
     req.logout(); //Delete session for user
     res.redirect('/'); //Redirect to '/' which will redirect to /api/login
   });
@@ -71,7 +71,7 @@ module.exports = (app, passport) => {
     let date = year + month + day;
 
     let options = {
-      url: 'https://www.mysportsfeeds.com/api/feed/pull/nba/2016-2017-regular/daily_player_stats.json?fordate=' + date,
+      url: 'https://www.mysportsfeeds.com/api/feed/pull/nba/latest/daily_player_stats.json?fordate=' + date,
       headers: {
        'User-Agent': 'request',
         'Authorization': 'Basic ' + authorization
@@ -89,7 +89,7 @@ module.exports = (app, passport) => {
 
   app.get('/api/nfl/playerStatsYTD', isLoggedIn, (req, res) => {
     let options = {
-      url: 'https://www.mysportsfeeds.com/api/feed/pull/nba/2016-2017-regular/cumulative_player_stats.json',
+      url: 'https://www.mysportsfeeds.com/api/feed/pull/nfl/latest/cumulative_player_stats.json',
       headers: {
        'User-Agent': 'request',
         'Authorization': 'Basic ' + authorization

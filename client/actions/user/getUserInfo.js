@@ -2,7 +2,10 @@ import axios from 'axios';
 
 const getUserInfo = () => {
   let request = axios.get('/api/getUserInfo');
-  return request;
+  return {
+    type:'GET_USER_INFO',
+    payload: request
+  }
 }
 
-export default setLeague;
+export default getUserInfo;

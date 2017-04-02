@@ -1,8 +1,8 @@
 export default function(state=[], action) {
   switch(action.type) {
-    case "GET_NBA_PLAYER_STATS_YTD":
+    case "GET_NFL_YTD_STATS":
       if(action.payload.data){
-        console.log('ACTION NBA YTD:', action)
+        console.log('ACTION NFL YTD:', action)
         return action.payload.data.cumulativeplayerstats;
       }
   }

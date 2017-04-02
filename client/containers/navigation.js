@@ -9,15 +9,34 @@ class Navigation extends Component {
   constructor(props){
     super(props);
   }
+  componentWillMount(){
+    this.props.getUserInfo()
+  }
 
   render(){
+    if(!this.props.userInfo) {
+      return(
+        <div>
+          <Link to='/'>My Leagues</Link><span>__</span>
+        </div>
+      )
+    }
     return(
       <div>
-        <Link to='/'>My Leagues</Link><span>__</span>
-        <span>welcome{this.getUserInfo().username}</span><a href='/api/logout'>Logout</a>
+        <div>
+          <Link to='/'>My Leagues</Link>
+        </div>
+        <div style={{float: 'right'}}>
+          <b>Welcome, {this.props.userInfo.username}! </b>
+          <a href='/api/logout'>Logout</a>
+        </div>
       </div>
     )
   }
 }
-
-export default connect(null,{ getUserInfo })(Navigation);
+const mapStatetoProps = state => {
+  return {
+    userInfo: state.UserInfo
+  }
+}
+export default connect(mapStatetoProps,{ getUserInfo })(Navigation);
