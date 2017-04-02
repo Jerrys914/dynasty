@@ -41,7 +41,7 @@ module.exports = (app, passport) => {
     failureFlash: true //Allow flash messages
   }));
 
-  app.get('/logout', (req, res) => {
+  app.get('/logout', isLoggedIn, (req, res) => {
     req.logout(); //Delete session for user
     res.redirect('/'); //Redirect to '/' which will redirect to /api/login
   });
@@ -152,5 +152,12 @@ module.exports = (app, passport) => {
       })
     })
   })
+//======================================================================================================================================
+
+//User Routes
+//======================================================================================================================================
+app.get('/api/getUserInfo', isLoggedIn, (req, res) => {
+  res.send(passport.user);
+})
 //======================================================================================================================================
 };

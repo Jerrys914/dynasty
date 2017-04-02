@@ -1,4 +1,4 @@
-let axios = require('axios');
+import axios from 'axios';
 
 const getNBADailyStats = () => {
   let request = axios.get('/api/nba/dailyStats');
