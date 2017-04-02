@@ -65,7 +65,7 @@ class NBADailyStats extends Component {
   render(){
     return(
       <div>
-        <div><h1>YTD Stats</h1></div>
+        <div><h1>NBA Daily Stats</h1></div>
         <table>
         <tbody>
           <tr>
