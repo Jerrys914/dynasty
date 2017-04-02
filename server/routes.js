@@ -49,7 +49,7 @@ module.exports = (app, passport) => {
 
 // Data Routes
 //======================================================================================================================================
-  app.get('/api/nba/playerStatsYTD', (req, res) => {
+  app.get('/api/nba/playerStatsYTD', isLoggedIn, (req, res) => {
     let options = {
       url: 'https://www.mysportsfeeds.com/api/feed/pull/nba/2016-2017-regular/cumulative_player_stats.json',
       headers: {
@@ -63,7 +63,7 @@ module.exports = (app, passport) => {
     request(options, callback);
   });
 
-  app.get('/api/nba/dailyStats', (req,res) => {
+  app.get('/api/nba/dailyStats', isLoggedIn, (req,res) => {
     let d = new Date();
     let year = d.getFullYear() + '';
     let month = ((d.getMonth() + 1) <9) ? '0' + (d.getMonth() + 1) : (d.getMonth() + 1) + '';
@@ -87,7 +87,7 @@ module.exports = (app, passport) => {
     request(options,callback);
   });
 
-  app.get('/api/nfl/playerStatsYTD', (req, res) => {
+  app.get('/api/nfl/playerStatsYTD', isLoggedIn, (req, res) => {
     let options = {
       url: 'https://www.mysportsfeeds.com/api/feed/pull/nba/2016-2017-regular/cumulative_player_stats.json',
       headers: {
@@ -101,7 +101,7 @@ module.exports = (app, passport) => {
     request(options, callback);
   });
 
-  app.get('/api/nfl/dailyStats', (req,res) => {
+  app.get('/api/nfl/dailyStats', isLoggedIn, (req,res) => {
     let d = new Date();
     let year = d.getFullYear() + '';
     let month = ((d.getMonth() + 1) <9) ? '0' + (d.getMonth() + 1) : (d.getMonth() + 1) + '';
@@ -128,13 +128,13 @@ module.exports = (app, passport) => {
 
 // League Routes
 //======================================================================================================================================
-  app.get('/api/myLeagues', (req, res) => {
+  app.get('/api/myLeagues', isLoggedIn, (req, res) => {
     let leaguesArr = LeagueModel.getLeaguesById(passport.user.id)
     Promise.all([leaguesArr]).then(result => {
       res.send(result[0]);
     })
   })
-  
+
   app.get('/api/createNewLeague', isLoggedIn, (req, res) => {
     res.render('createNewLeague.ejs');
   })
@@ -143,7 +143,7 @@ module.exports = (app, passport) => {
     res.redirect('/');
   })
 
-  app.get('/api/myTeams', (req, res) => {
+  app.get('/api/myTeams', isLoggedIn, (req, res) => {
     let memberId = MemberModel.getMemberId(passport.user.id);
     Promise.all([memberId]).then(id => {
       let member = id[0][0];
