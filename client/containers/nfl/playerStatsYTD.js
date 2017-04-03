@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import getNFLPlayerStatsYTD from '../../actions/nfl/playerStatsYTD.js';
 import PlayerUtils from '../../utils/nflPlayerUtils.js';
+import SortPlayers from '../../actions/nfl/sortPlayersYTD.js';
 
 class PlayerStatsYTD extends Component {
   constructor(props) {
@@ -16,13 +17,14 @@ class PlayerStatsYTD extends Component {
   componentWillMount(props){
     this.props.getNFLPlayerStatsYTD();
   }
+  componentWillReceiveProps(props){
+    console.log('PROPS: ', props)
+  }
 
   displayStats(){ 
-    console.log('Display Stats')
     if(this.props.nflSeasonStats.playerstatsentry){
       this.state.players = [];
       this.props.nflSeasonStats.playerstatsentry.map((player)=>{
-        console.log('NFL PLAYER: ',player)
         this.positions[player.player.Position] = true;
         let newPlayer = PlayerUtils.getPlayerInfo(player);
         if(newPlayer){
@@ -71,19 +73,19 @@ class PlayerStatsYTD extends Component {
         <table>
           <tbody>
             <tr>
-              <th>Player Name</th>
+              <th onClick={()=>{this.props.SortPlayers(PlayerUtils.sortBy['name'](this.state.players))}}>Player Name</th>
               <th>Team</th>
               <th>Number</th>
               <th>Position</th>
-              <th>Pass Yds</th>
-              <th>Pass TD</th>
-              <th>Pass Int</th>
-              <th>Rush Yds</th>
-              <th>Rush TD</th>
-              <th>Rec</th>
-              <th>Rec Yds</th>
-              <th>Rec TD</th>
-              <th>Fum</th>
+              <th onClick={()=>{this.props.SortPlayers(PlayerUtils.sortBy['passYds'](this.state.players))}}>Pass Yds</th>
+              <th onClick={()=>{this.props.SortPlayers(PlayerUtils.sortBy['passTD'](this.state.players))}}>Pass TD</th>
+              <th onClick={()=>{this.props.SortPlayers(PlayerUtils.sortBy['passInt'](this.state.players))}}>Pass Int</th>
+              <th onClick={()=>{this.props.SortPlayers(PlayerUtils.sortBy['rushYds'](this.state.players))}}>Rush Yds</th>
+              <th onClick={()=>{this.props.SortPlayers(PlayerUtils.sortBy['rushTD'](this.state.players))}}>Rush TD</th>
+              <th onClick={()=>{this.props.SortPlayers(PlayerUtils.sortBy['receptions'](this.state.players))}}>Rec</th>
+              <th onClick={()=>{this.props.SortPlayers(PlayerUtils.sortBy['recYds'](this.state.players))}}>Rec Yds</th>
+              <th onClick={()=>{this.props.SortPlayers(PlayerUtils.sortBy['recTD'](this.state.players))}}>Rec TD</th>
+              <th onClick={()=>{this.props.SortPlayers(PlayerUtils.sortBy['fumbles'](this.state.players))}}>Fum</th>
             </tr>
             {this.displayStats()}
           </tbody>
@@ -100,7 +102,7 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => {
-  return bindActionCreators({getNFLPlayerStatsYTD}, dispatch);
+  return bindActionCreators({ getNFLPlayerStatsYTD, SortPlayers }, dispatch);
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(PlayerStatsYTD);

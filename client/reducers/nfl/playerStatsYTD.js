@@ -5,6 +5,11 @@ export default function(state=[], action) {
         console.log('ACTION NFL YTD:', action)
         return action.payload.data.cumulativeplayerstats;
       }
+    case 'SORT_NFL_PLAYERS_YTD':
+      if(action.payload){
+        console.log('ACTION NFL YTD SORTED:', action)
+        return action.payload
+      }
   }
   return state;
 }

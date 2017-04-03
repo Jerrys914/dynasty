@@ -89,7 +89,7 @@ module.exports = (app, passport) => {
 
   app.get('/api/nfl/playerStatsYTD', isLoggedIn, (req, res) => {
     let options = {
-      url: 'https://www.mysportsfeeds.com/api/feed/pull/nfl/latest/cumulative_player_stats.json',
+      url: 'https://www.mysportsfeeds.com/api/feed/pull/nfl/2016-2017-regular/cumulative_player_stats.json',
       headers: {
        'User-Agent': 'request',
         'Authorization': 'Basic ' + authorization

@@ -8,7 +8,6 @@ import SortPlayers from '../../actions/nba/sortPlayersYTD.js';
 class PlayerStatsYTD extends Component {
   constructor(props) {
     super(props);
-    this.flag = true;
     this.state = {
       players: []
     };
@@ -23,7 +22,6 @@ class PlayerStatsYTD extends Component {
   }
 
   displayStats(){
-    console.log('Display Stats')
     if(this.props.NBAPlayerStatsYTD.playerstatsentry){
       this.state.players = [];
       this.props.NBAPlayerStatsYTD.playerstatsentry.map((player)=>{
@@ -32,7 +30,6 @@ class PlayerStatsYTD extends Component {
         newPlayer.totalPoints = PlayerUtils.totalPointsGenerator(newPlayer) + PlayerUtils.applyBonus(newPlayer);
       });
       this.state.players = PlayerUtils.sortBy['totalPoints'](this.state.players).sorted; 
-      console.log('State Players Array: ',this.state.players)
     } else {
       if(this.props.NBAPlayerStatsYTD.sorted){
         this.state.players = this.props.NBAPlayerStatsYTD.sorted
@@ -41,8 +38,6 @@ class PlayerStatsYTD extends Component {
       }
 
     }
-    console.log('State Players Array: ',this.state.players)
-    // this.state.players = this.sortByFuncs[this.sortBy](this.state.players);
     return this.state.players.map((player)=>{
       return(
         <tr key={player.fullName + Math.random()}>
