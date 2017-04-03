@@ -229,7 +229,6 @@ const sortByFumbles = playersArr => {
     }
     return playerB.fumbles - playerA.fumbles;
   });
-  console.log('UTILS SORTED ARRAY: ', sortedArr)
   return {
     sortedBy: 'fumbles',
     sorted: sortedArr

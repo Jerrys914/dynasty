@@ -54,7 +54,6 @@ const createNewLeague = (name, user) => {
     .then(year => {
       return knex('Members').insert({yearID: year[0], userID: user.id, isComish:true})
       .then(member => {
-        console.log('MEMBER: ', member)
         TeamModel.createTeam(user.username, 'football', member[0])
         TeamModel.createTeam(user.username, 'basketball', member[0])
         TeamModel.createTeam(user.username, 'baseball', member[0])

@@ -17,12 +17,7 @@ class NBADailyStats extends Component {
     this.props.getDailyStats();
   }
 
-  componentWillReceiveProps(nextProps){
-    console.log('NextProps: ', nextProps)
-  }
-
   displayStats(){
-    console.log('Display Stats')
     if(this.props.nbaStatsForDay.playerstatsentry){
       this.state.players = [];
       this.props.nbaStatsForDay.playerstatsentry.map((player)=>{
@@ -31,7 +26,6 @@ class NBADailyStats extends Component {
         newPlayer.totalPoints = PlayerUtils.totalPointsGenerator(newPlayer) + PlayerUtils.applyBonus(newPlayer);
       });
       this.state.players = PlayerUtils.sortBy['totalPoints'](this.state.players).sorted; 
-      console.log('State Players Array: ',this.state.players)
     } else {
       if(this.props.nbaStatsForDay.sorted){
         this.state.players = this.props.nbaStatsForDay.sorted
@@ -40,8 +34,6 @@ class NBADailyStats extends Component {
       }
 
     }
-    console.log('State Players Array: ',this.state.players)
-    // this.state.players = this.sortByFuncs[this.sortBy](this.state.players);
     return this.state.players.map((player)=>{
       return(
         <tr key={player.fullName + Math.random()}>

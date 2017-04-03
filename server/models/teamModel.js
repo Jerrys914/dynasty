@@ -14,7 +14,6 @@ const getTeamsByMemberId = memberId => {
   return knex('Teams').where({
     memberID: memberId
   }).then(teams => {
-    console.log('TEAMS: ', teams);
     return teams;
   })
 }

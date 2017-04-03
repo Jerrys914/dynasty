@@ -136,7 +136,6 @@ const sortByTurnovers = playersArr => {
   let sortedArr = playersArr.sort((playerA,playerB) => {
     return playerB.Tov - playerA.Tov;
   });
-  console.log('UTILS SORTED ARRAY: ', sortedArr)
   return {
     sortedBy: 'Points',
     sorted: sortedArr

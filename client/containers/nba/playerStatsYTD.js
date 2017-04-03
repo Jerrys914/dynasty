@@ -17,10 +17,6 @@ class PlayerStatsYTD extends Component {
     this.props.getNBAPlayerStatsYTD();
   }
 
-  componentWillReceiveProps(props){
-    console.log('NEXT PROPS: ', props)
-  }
-
   displayStats(){
     if(this.props.NBAPlayerStatsYTD.playerstatsentry){
       this.state.players = [];

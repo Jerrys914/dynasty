@@ -16,10 +16,6 @@ class NBADailyStats extends Component {
     this.props.getDailyStats();
   }
 
-  componentWillReceiveProps(nextProps){
-    console.log('NextProps: ', nextProps)
-  }
-
   displayStats(){
     // if(this.props.nbaStatsForDay.playerstatsentry){
     //   this.state.players = [];

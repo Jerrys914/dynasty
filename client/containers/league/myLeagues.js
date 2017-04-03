@@ -8,7 +8,6 @@ import setLeague from '../../actions/league/setLeagueName.js';
 class MyLeagues extends Component {
   constructor(props) {
     super(props);
-    // this.props.getLeagues();
   }
 
   componentWillMount(){

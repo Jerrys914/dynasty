@@ -18,10 +18,6 @@ class NBATeam extends Component {
   componentWillMount(props){
   }
 
-  componentWillReceiveProps(nextProps){
-    console.log('NextProps: ', nextProps)
-  }
-
   render() {
     return(
       <div>

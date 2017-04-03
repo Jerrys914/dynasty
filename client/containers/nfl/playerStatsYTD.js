@@ -8,7 +8,6 @@ import SortPlayers from '../../actions/nfl/sortPlayersYTD.js';
 class PlayerStatsYTD extends Component {
   constructor(props) {
     super(props);
-    this.positions = {};
     this.state = {
       players: []
     }
@@ -16,9 +15,6 @@ class PlayerStatsYTD extends Component {
 
   componentWillMount(props){
     this.props.getNFLPlayerStatsYTD();
-  }
-  componentWillReceiveProps(props){
-    console.log('PROPS: ', props)
   }
 
   displayStats(){ 
@@ -33,8 +29,6 @@ class PlayerStatsYTD extends Component {
         } 
       });
       // this.state.players = PlayerUtils.sortBy['totalPoints'](this.state.players).sorted; 
-      console.log('State Players Array: ',this.state.players)
-      console.log('POSITIONS: ', this.positions)
     } else {
       if(this.props.nflSeasonStats.sorted){
         this.state.players = this.props.nflSeasonStats.sorted
@@ -43,8 +37,6 @@ class PlayerStatsYTD extends Component {
       }
 
     }
-    console.log('State Players Array: ',this.state.players)
-    // this.state.players = this.sortByFuncs[this.sortBy](this.state.players);
     return this.state.players.map((player)=>{
       return(
         <tr key={player.fullName + Math.random()}>
