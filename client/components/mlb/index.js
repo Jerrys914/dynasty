@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import Nav from '../../containers/navigation.js';
-import NBANav from '../../containers/nba/nbaNav.js';
+import MLBNav from '../../containers/mlb/mlbNav.js';
 import TeamNav from '../../containers/league/leagueNav.js';
-import NBATeam from '../../containers/nba/myTeam.js';
+// import NBATeam from '../../containers/nba/myTeam.js';
 
 export default class NBATEAM extends Component {
   render(){
@@ -10,8 +10,7 @@ export default class NBATEAM extends Component {
       <div>
         <Nav />
         <TeamNav />
-        <NBANav />
-        <NBATeam />
+        <MLBNav />
       </div>
     )
   }

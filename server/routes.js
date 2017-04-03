@@ -89,7 +89,7 @@ module.exports = (app, passport) => {
 
   app.get('/api/nfl/playerStatsYTD', isLoggedIn, (req, res) => {
     let options = {
-      url: 'https://www.mysportsfeeds.com/api/feed/pull/nfl/2016-2017-regular/cumulative_player_stats.json',
+      url: 'https://www.mysportsfeeds.com/api/feed/pull/nfl/2016-regular/cumulative_player_stats.json',
       headers: {
        'User-Agent': 'request',
         'Authorization': 'Basic ' + authorization
@@ -109,7 +109,7 @@ module.exports = (app, passport) => {
     let date = year + month + day;
 
     let options = {
-      url: 'https://www.mysportsfeeds.com/api/feed/pull/nba/2016-2017-regular/daily_player_stats.json?fordate=' + date,
+      url: 'https://www.mysportsfeeds.com/api/feed/pull/nfl/latest/daily_player_stats.json?fordate=' + date,
       headers: {
        'User-Agent': 'request',
         'Authorization': 'Basic ' + authorization
@@ -123,6 +123,20 @@ module.exports = (app, passport) => {
       }
     };
     request(options,callback);
+  });
+
+  app.get('/api/mlb/playerStatsYTD', isLoggedIn, (req, res) => {
+    let options = {
+      url: 'https://www.mysportsfeeds.com/api/feed/pull/mlb/latest/cumulative_player_stats.json',
+      headers: {
+       'User-Agent': 'request',
+        'Authorization': 'Basic ' + authorization
+      }
+    };
+    const callback = (err, response, data) => {
+      res.send(JSON.parse(data))
+    };
+    request(options, callback);
   });
 //======================================================================================================================================
 

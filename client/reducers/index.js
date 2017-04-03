@@ -3,6 +3,7 @@ import NBASeasonStats from './nba/playerStatsYTD.js';
 import NBADailyStats from './nba/dailyStats.js';
 import NFLSeasonStats from './nfl/playerStatsYTD.js';
 import NFLDailyStats from './nba/dailyStats.js';
+import MLBSeasonStats from './mlb/playerStatsYTD.js';
 import MyLeagues from './league/myLeagues.js';
 import MyTeams from './league/myTeams.js';
 import LeagueName from './league/leagueName.js';
@@ -13,6 +14,7 @@ let rootReducer = combineReducers({
   nbaStatsForDay: NBADailyStats,
   NFLSeasonStats,
   NFLDailyStats,
+  MLBSeasonStats,
   MyLeagues,
   MyTeams,
   LeagueName,

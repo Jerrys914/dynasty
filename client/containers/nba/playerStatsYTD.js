@@ -82,13 +82,13 @@ class PlayerStatsYTD extends Component {
   }
 };
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
     NBAPlayerStatsYTD: state.nbaPlayerStatsYTD
   }
 };
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = dispatch => {
   return bindActionCreators({ getNBAPlayerStatsYTD, SortPlayers }, dispatch);
 };
 

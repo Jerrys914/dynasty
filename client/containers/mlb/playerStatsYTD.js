@@ -1,49 +1,51 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import getNFLPlayerStatsYTD from '../../actions/nfl/playerStatsYTD.js';
-import PlayerUtils from '../../utils/nflPlayerUtils.js';
+import getMLBPlayerStatsYTD from '../../actions/mlb/playerStatsYTD.js';
+import PlayerUtils from '../../utils/mlbPlayerUtils.js';
 import SortPlayers from '../../actions/nfl/sortPlayersYTD.js';
 
 class PlayerStatsYTD extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      players: []
+      players: {
+        batters: [],
+        pitchers: []
+      }
     }
   }
 
   componentWillMount(props){
-    this.props.getNFLPlayerStatsYTD();
+    this.props.getMLBPlayerStatsYTD();
   }
 
   displayStats(){ 
-    if(this.props.nflSeasonStats.playerstatsentry){
+    if(this.props.mlbSeasonStats.playerstatsentry){
       this.state.players = [];
-      this.props.nflSeasonStats.playerstatsentry.map((player)=>{
+      this.props.mlbSeasonStats.playerstatsentry.map((player)=>{
         let newPlayer = PlayerUtils.getPlayerInfo(player);
-        if(newPlayer){
-          this.state.players.push(newPlayer);
-          // newPlayer.totalPoints = PlayerUtils.totalPointsGenerator(newPlayer) + PlayerUtils.applyBonus(newPlayer);
-        } 
+        if(newPlayer.position === 'P'){
+          this.state.players.pitchers.push(newPlayer);
+        }
+        this.state.players.batters.push(newPlayer); 
       });
-      // this.state.players = PlayerUtils.sortBy['totalPoints'](this.state.players).sorted; 
     } else {
-      if(this.props.nflSeasonStats.sorted){
-        this.state.players = this.props.nflSeasonStats.sorted
+      if(this.props.mlbSeasonStats.sorted){
+        this.state.players = this.props.mlbSeasonStats.sorted
       } else {
-        this.state.players = this.props.nflSeasonStats
+        this.state.players = this.props.mlbSeasonStats
       }
 
     }
+    console.log('MLB YTD STATE PLAYERS: ', this.state.players)
     return this.state.players.map((player)=>{
       return(
-        <tr key={player.fullName + Math.random()}>
+        <tr key={player.fullName + player.teamAbv + player.position}>
           <td>{player.fullName}</td>
           <td>{player.teamAbv}</td>
-          <td>{player.number}</td>
           <td>{player.position}</td>
-          <td>{player.passYds}</td>
+{/*          <td>{player.passYds}</td>
           <td>{player.passTD}</td>
           <td>{player.passInt}</td>
           <td>{player.rushYds}</td>
@@ -51,7 +53,7 @@ class PlayerStatsYTD extends Component {
           <td>{player.receptions}</td>
           <td>{player.recYds}</td>
           <td>{player.recTD}</td>
-          <td>{player.fumbles}</td>
+          <td>{player.fumbles}</td>*/}
         </tr>
       )
     })
@@ -60,10 +62,10 @@ class PlayerStatsYTD extends Component {
   render(){
     return(
       <div>
-        <div><h1>Football Stats YTD</h1></div>
+        <div><h1>Baseball Stats YTD</h1></div>
         <table>
           <tbody>
-            <tr>
+            {/*<tr>
               <th onClick={()=>{this.props.SortPlayers(PlayerUtils.sortBy['name'](this.state.players))}}>Player Name</th>
               <th>Team</th>
               <th>Number</th>
@@ -77,7 +79,7 @@ class PlayerStatsYTD extends Component {
               <th onClick={()=>{this.props.SortPlayers(PlayerUtils.sortBy['recYds'](this.state.players))}}>Rec Yds</th>
               <th onClick={()=>{this.props.SortPlayers(PlayerUtils.sortBy['recTD'](this.state.players))}}>Rec TD</th>
               <th onClick={()=>{this.props.SortPlayers(PlayerUtils.sortBy['fumbles'](this.state.players))}}>Fum</th>
-            </tr>
+            </tr>*/}
             {this.displayStats()}
           </tbody>
         </table>
@@ -88,12 +90,12 @@ class PlayerStatsYTD extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    nflSeasonStats: state.NFLSeasonStats
+    mlbSeasonStats: state.MLBSeasonStats
   }
 };
 
 const mapDispatchToProps = (dispatch) => {
-  return bindActionCreators({ getNFLPlayerStatsYTD, SortPlayers }, dispatch);
+  return bindActionCreators({ getMLBPlayerStatsYTD, SortPlayers }, dispatch);
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(PlayerStatsYTD);
