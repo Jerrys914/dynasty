@@ -7,7 +7,7 @@ export default class MYLEAGUES extends Component {
   render() {
     return (
       <div>
-        <Nav />
+       <Nav />
         <TeamNav />
         <LeagueStandings />
       </div>

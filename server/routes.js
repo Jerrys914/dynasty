@@ -167,8 +167,13 @@ module.exports = (app, passport) => {
     })
   })
 
-  app.get('/api/getLeagueMembers', isLoggedIn, (req,res) => {
-    res.send('Array of League MEMBERS');
+  app.get('/api/getLeagueMembers/:leagueInfo', isLoggedIn, (req,res) => {
+    let membersArr = MemberModel.getLeagueMembers(passport.user.id, req.params.leagueInfo);
+    Promise.all([membersArr]).then(members => {
+      console.log('Members: ', members);
+      members = members[0];
+      res.send(members);
+    });
   });
 //======================================================================================================================================
 

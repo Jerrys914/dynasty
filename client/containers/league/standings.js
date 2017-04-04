@@ -9,15 +9,14 @@ class MyTeams extends Component {
   }
 
   componentWillMount(){
-    this.props.getLeagueMembers();
+    this.props.getLeagueMembers(this.props.leagueInfo);
   }
 
-  displayTeams(){
-    console.log('MY TEAM PROPS: ', this.props)
-    return this.props.myTeams.map(team => {
+  displayMembers(){
+    return this.props.leagueMembers.map(member => {
       return (
-        <div key={team.id}>
-          {team.name}
+        <div key={member.id}>
+          {member.name}
         </div>
       )
     })
@@ -26,7 +25,7 @@ class MyTeams extends Component {
   render(){
     return (
       <div>
-      {this.props.leagueMembers}
+      {this.displayMembers()}
       </div>
     )
   }
@@ -34,6 +33,7 @@ class MyTeams extends Component {
 
 const mapStateToProps = state => {
   return {
+    leagueInfo: state.LeagueInfo,
     leagueMembers: state.LeagueMembers
   }
 };
