@@ -58,7 +58,11 @@ module.exports = (app, passport) => {
       }
     };
     const callback = (err, response, data) => {
-      res.send(JSON.parse(data))
+      if(data){
+        res.send(JSON.parse(data))
+      } else {
+        res.send(data)
+      }
     };
     request(options, callback);
   });
@@ -68,10 +72,17 @@ module.exports = (app, passport) => {
     let year = d.getFullYear() + '';
     let month = ((d.getMonth() + 1) <9) ? '0' + (d.getMonth() + 1) : (d.getMonth() + 1) + '';
     let day = d.getDate() < 10 ? '0'+ d.getDate() : d.getDate() + '';
-    let date = year + month + day;
+    let date;
+    let hour = d.getHours();
+    if(hour < 5) {
+      date = year + month + (day-1);
+    } else {
+      date = year + month + day;
+    }
+
 
     let options = {
-      url: 'https://www.mysportsfeeds.com/api/feed/pull/nba/latest/daily_player_stats.json?fordate=' + date,
+      url: 'https://www.mysportsfeeds.com/api/feed/pull/nba/2016-2017-regular/daily_player_stats.json?fordate=' + date,
       headers: {
        'User-Agent': 'request',
         'Authorization': 'Basic ' + authorization
@@ -96,7 +107,11 @@ module.exports = (app, passport) => {
       }
     };
     const callback = (err, response, data) => {
-      res.send(JSON.parse(data))
+      if(data){
+        res.send(JSON.parse(data))
+      } else {
+        res.send(data)
+      }
     };
     request(options, callback);
   });
@@ -134,7 +149,11 @@ module.exports = (app, passport) => {
       }
     };
     const callback = (err, response, data) => {
-      res.send(JSON.parse(data))
+      if(data){
+        res.send(JSON.parse(data))
+      } else {
+        res.send(data)
+      }
     };
     request(options, callback);
   });
@@ -170,7 +189,6 @@ module.exports = (app, passport) => {
   app.get('/api/getLeagueMembers/:leagueInfo', isLoggedIn, (req,res) => {
     let membersArr = MemberModel.getLeagueMembers(passport.user.id, req.params.leagueInfo);
     Promise.all([membersArr]).then(members => {
-      console.log('Members: ', members);
       members = members[0];
       res.send(members);
     });

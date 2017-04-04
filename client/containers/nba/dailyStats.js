@@ -34,6 +34,7 @@ class NBADailyStats extends Component {
       }
 
     }
+    console.log('PLAYERS: ', this.state.players)
     return this.state.players.map((player)=>{
       return(
         <tr key={player.fullName + Math.random()}>

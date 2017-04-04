@@ -8,8 +8,10 @@ import SortPlayers from '../../actions/nfl/sortPlayersYTD.js';
 class PlayerStatsYTD extends Component {
   constructor(props) {
     super(props);
+      this.props.getMLBPlayerStatsYTD();
     this.state = {
       players: {
+        allPlayers: [],
         batters: [],
         pitchers: []
       }
@@ -17,29 +19,34 @@ class PlayerStatsYTD extends Component {
   }
 
   componentWillMount(props){
-    this.props.getMLBPlayerStatsYTD();
+    if(this.state.players.allPlayers.length  === 0){
+    }
   }
 
   displayStats(){ 
     if(this.props.mlbSeasonStats.playerstatsentry){
-      this.state.players = [];
+      this.state.players.allPlayers = [];
       this.props.mlbSeasonStats.playerstatsentry.map((player)=>{
         let newPlayer = PlayerUtils.getPlayerInfo(player);
+        this.state.players.allPlayers.push(newPlayer);
         if(newPlayer.position === 'P'){
           this.state.players.pitchers.push(newPlayer);
+        } else {
+          this.state.players.batters.push(newPlayer); 
         }
-        this.state.players.batters.push(newPlayer); 
       });
     } else {
+          console.log('local state')
+    }
+    /* else {
       if(this.props.mlbSeasonStats.sorted){
         this.state.players = this.props.mlbSeasonStats.sorted
       } else {
         this.state.players = this.props.mlbSeasonStats
       }
-
-    }
+    }*/
     console.log('MLB YTD STATE PLAYERS: ', this.state.players)
-    return this.state.players.map((player)=>{
+    return this.state.players.allPlayers.map((player)=>{
       return(
         <tr key={player.fullName + player.teamAbv + player.position}>
           <td>{player.fullName}</td>

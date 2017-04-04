@@ -25,7 +25,7 @@ class MLBTeam extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    myTeams: state.MyTeams
+    // myTeams: state.MyTeams
   }
 };
 
