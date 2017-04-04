@@ -16,6 +16,7 @@ class LEAGUENAV extends Component {
     return(
       <div>
         <h1>{this.props.leagueName}</h1>
+        <Link to='/leagueStandings'>Standings</Link><span>__</span>
         <Link to='/myTeams'>My Teams</Link><span>__</span>
         <Link to='/NFL'>Football</Link><span>__</span>
         <Link to='/NBA'>Basketball</Link><span>__</span>

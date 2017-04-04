@@ -166,6 +166,10 @@ module.exports = (app, passport) => {
       })
     })
   })
+
+  app.get('/api/getLeagueMembers', isLoggedIn, (req,res) => {
+    res.send('Array of League MEMBERS');
+  });
 //======================================================================================================================================
 
 //User Routes

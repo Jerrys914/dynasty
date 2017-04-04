@@ -14,7 +14,7 @@ const getLeaguesByUserId = id => {
     userID: id
   }).then(yearIds => {
     if(yearIds.length === 0){
-      return [{id:'No Leagues',name: 'No Leagues Yet'}];  // to conform to format expected in container.
+      return [{id:'No Leagues', name: 'No Leagues Yet'}];  // to conform to format expected in container.
     }
     else {
       flag = true;

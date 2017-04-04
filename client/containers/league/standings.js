@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import getTeams from '../../actions/league/getTeams.js';
+import getLeagueMembers from '../../actions/league/getLeagueMembers.js';
 
 class MyTeams extends Component {
   constructor(props){
@@ -9,7 +9,7 @@ class MyTeams extends Component {
   }
 
   componentWillMount(){
-    this.props.getTeams();    
+    this.props.getLeagueMembers();
   }
 
   displayTeams(){
@@ -26,7 +26,7 @@ class MyTeams extends Component {
   render(){
     return (
       <div>
-      {this.displayTeams()}
+      {this.props.leagueMembers}
       </div>
     )
   }
@@ -34,12 +34,12 @@ class MyTeams extends Component {
 
 const mapStateToProps = state => {
   return {
-    myTeams: state.MyTeams
+    leagueMembers: state.LeagueMembers
   }
 };
 
 const mapDispatchToProps = dispatch => {
-  return bindActionCreators({ getTeams }, dispatch);
+  return bindActionCreators({ getLeagueMembers }, dispatch);
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(MyTeams);

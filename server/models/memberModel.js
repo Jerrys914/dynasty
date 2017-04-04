@@ -8,6 +8,11 @@ const getMemberId = userId => {
   })
 };
 
+const getLeagueMembers = () => {
+  
+};
+
 module.exports ={
-  getMemberId
+  getMemberId,
+  getLeagueMembers
 };
