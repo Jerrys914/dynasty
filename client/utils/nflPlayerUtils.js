@@ -246,7 +246,6 @@ const sortBy = {
   rushYds: sortByRushYds,
   passInt: sortByInt,
   fumbles: sortByFumbles
-
 };
 
 module.exports = {

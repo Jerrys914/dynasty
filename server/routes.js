@@ -80,7 +80,6 @@ module.exports = (app, passport) => {
       date = year + month + day;
     }
 
-
     let options = {
       url: 'https://www.mysportsfeeds.com/api/feed/pull/nba/2016-2017-regular/daily_player_stats.json?fordate=' + date,
       headers: {
@@ -197,8 +196,8 @@ module.exports = (app, passport) => {
 
 //User Routes
 //======================================================================================================================================
-app.get('/api/getUserInfo', isLoggedIn, (req, res) => {
-  res.send(passport.user);
-})
+  app.get('/api/getUserInfo', isLoggedIn, (req, res) => {
+    res.send(passport.user);
+  })
 //======================================================================================================================================
 };
