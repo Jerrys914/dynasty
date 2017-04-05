@@ -124,7 +124,7 @@ module.exports = (app, passport) => {
     let date = year + month + day;
 
     let options = {
-      url: 'https://www.mysportsfeeds.com/api/feed/pull/nfl/latest/daily_player_stats.json?fordate=' + date,
+      url: 'https://www.mysportsfeeds.com/api/feed/pull/nfl/2016-regular/daily_player_stats.json?fordate=' + '20160911'/*date*/,
       headers: {
        'User-Agent': 'request',
         'Authorization': 'Basic ' + authorization

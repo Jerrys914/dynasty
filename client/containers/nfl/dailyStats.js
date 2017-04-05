@@ -16,8 +16,12 @@ class NBADailyStats extends Component {
     this.props.getDailyStats();
   }
 
+  componentDidReceiveProps(props){
+    console.log(this.props.nflDailyStats)
+  }
+
   displayStats(){
-    // if(this.props.nbaStatsForDay.playerstatsentry){
+    // if(this.props.nflDailtStats.playerstatsentry){
     //   this.state.players = [];
     //   this.props.nbaStatsForDay.playerstatsentry.map((player)=>{
     //     let newPlayer = PlayerUtils.getPlayerInfo(player);
@@ -63,6 +67,7 @@ class NBADailyStats extends Component {
 
 const mapStateToProps = (state) => {
   return {
+    nflDailyStats: state.NFLDailyStats
   }
 };
 

@@ -2,7 +2,7 @@ import { combineReducers } from 'redux';
 import NBASeasonStats from './nba/playerStatsYTD.js';
 import NBADailyStats from './nba/dailyStats.js';
 import NFLSeasonStats from './nfl/playerStatsYTD.js';
-import NFLDailyStats from './nba/dailyStats.js';
+import NFLDailyStats from './nfl/dailyStats.js';
 import MLBSeasonStats from './mlb/playerStatsYTD.js';
 import MyLeagues from './league/myLeagues.js';
 import MyTeams from './league/myTeams.js';
