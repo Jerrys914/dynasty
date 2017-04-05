@@ -20,10 +20,6 @@ class PlayerStatsYTD extends Component {
   }
 
   displayStats(){ 
-    console.log('DISPLAY')
-    this.state.players.all = []
-    this.state.players.batters = []
-    this.state.players.pitchers = []
     if(this.props.mlbSeasonStats.playerstatsentry){
       this.state.players[this.state.display] = [];
       this.props.mlbSeasonStats.playerstatsentry.map((player)=>{
@@ -42,9 +38,7 @@ class PlayerStatsYTD extends Component {
         this.state.players[this.state.display] = this.props.mlbSeasonStats
       }
     }
-    console.log('MLB YTD STATE PLAYERS: ', this.state.players)
     return this.state.players[this.state.display].map((player)=>{
-      console.log('PLAYER: ', player)
       if(this.state.display === 'batters'){
         return(
           <tr key={player.fullName + player.teamAbv + player.position}>
