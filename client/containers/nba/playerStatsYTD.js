@@ -30,8 +30,8 @@ class PlayerStatsYTD extends Component {
       this.state.players = [];
       this.props.nbaPlayerStatsYTD.playerstatsentry.map((player)=>{
         let newPlayer = PlayerUtils.getPlayerInfo(player);
-        this.state.players.push(newPlayer);
         newPlayer.totalPoints = PlayerUtils.totalPointsGenerator(newPlayer) + PlayerUtils.applyBonus(newPlayer);
+        this.state.players.push(newPlayer);
       });
       this.state.players = PlayerUtils.sortBy['totalPoints'](this.state.players).sorted; 
     } else {

@@ -10,7 +10,21 @@ let pointsConverter = {
   prYds: .02,
   prTD: 6,
   '2pt': 2,
-  fumbles: -2
+  fumbles: -2,
+  fg1_39: 3,
+  fg40_49: 4,
+  'fg50+': 5,
+  xp: 1
+};
+
+const totalPointsGenerator = player => {
+  let totalPoints = 0;
+  for(let prop in player) {
+    if(prop !== 'fullName' && prop !== 'number' && prop !== 'position' && prop !== 'teamAbv'){
+      totalPoints += pointsConverter[prop] * player[prop];
+    }  
+  }
+  return totalPoints.toFixed(2);
 };
 
 const getPlayerInfo = playerObj => {
@@ -33,6 +47,16 @@ const getPlayerInfo = playerObj => {
       prTD: playerObj.stats.PrTD['#text'],
       '2pt': playerObj.stats.TwoPtMade['#text'],
     }
+  /*} else if (playerObj.player.Position === 'K'){
+    return {
+      fullName: playerObj.player.FirstName + ' ' + playerObj.player.LastName,
+      number: playerObj.player.JerseyNumber,
+      position: playerObj.player.Position,
+      fg1_39: playerObj.stats.FgMade1_19 + playerObj.stats.FgMade20_29 + playerObj.stats.FgMade30_39,
+      fg40_49: playerObj.stats.FgMade40_49,
+      'fg50+': playerObj.stats.FgMade50Plus,
+      xp: playerObj.stats.XpMade
+    }*/
   }
   return false
 };
@@ -234,6 +258,15 @@ const sortByFumbles = playersArr => {
     sorted: sortedArr
   }
 };
+const sortByTotalPoints = playersArr => {
+  let sortedArr = playersArr.sort((playerA,playerB) => {
+    return playerB.totalPoints - playerA.totalPoints;
+  });
+  return {
+    sortedBy: 'Points',
+    sorted: sortedArr
+  }
+};
 
 const sortBy = {
   name: sortByName,
@@ -245,11 +278,13 @@ const sortBy = {
   rushTD: sortByRushTD,
   rushYds: sortByRushYds,
   passInt: sortByInt,
-  fumbles: sortByFumbles
+  fumbles: sortByFumbles,
+  totalPoints: sortByTotalPoints
 };
 
 module.exports = {
   pointsConverter,
   getPlayerInfo,
-  sortBy
+  sortBy,
+  totalPointsGenerator
 }

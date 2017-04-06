@@ -34,13 +34,13 @@ class NFLDailyStats extends Component {
           this.state.players.push(newPlayer);
         } 
       });
+      this.state.players = PlayerUtils.sortBy['totalPoints'](this.state.players).sorted; 
     } else {
       if(this.props.nflDailyStats.sorted){
         this.state.players = this.props.nflDailyStats.sorted
       } else {
         this.state.players = this.props.nflDailyStats
       }
-
     }
     return this.state.players.filter(this.contains).map((player)=>{
       return(
@@ -58,6 +58,7 @@ class NFLDailyStats extends Component {
           <td>{player.recYds}</td>
           <td>{player.recTD}</td>
           <td>{player.fumbles}</td>
+          <td>{player.totalPoints}</td>
         </tr>
       )
     })
@@ -88,6 +89,7 @@ class NFLDailyStats extends Component {
               <th onClick={()=>{this.props.SortPlayers(PlayerUtils.sortBy['recYds'](this.state.players))}}>Rec Yds</th>
               <th onClick={()=>{this.props.SortPlayers(PlayerUtils.sortBy['recTD'](this.state.players))}}>Rec TD</th>
               <th onClick={()=>{this.props.SortPlayers(PlayerUtils.sortBy['fumbles'](this.state.players))}}>Fum</th>
+              <th onClick={()=>{this.props.SortPlayers(PlayerUtils.sortBy['totalPoints'](this.state.players))}}>Total Points</th>
             </tr>
             {this.displayStats()}
           </tbody>

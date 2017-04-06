@@ -31,6 +31,7 @@ class PlayerStatsYTD extends Component {
       this.props.nflSeasonStats.playerstatsentry.map((player)=>{
         let newPlayer = PlayerUtils.getPlayerInfo(player);
         if(newPlayer){
+          newPlayer.totalPoints = PlayerUtils.totalPointsGenerator(newPlayer);
           this.state.players.push(newPlayer);
         } 
       });
@@ -58,6 +59,7 @@ class PlayerStatsYTD extends Component {
           <td>{player.recYds}</td>
           <td>{player.recTD}</td>
           <td>{player.fumbles}</td>
+          <td>{player.totalPoints}</td>
         </tr>
       )
     })
@@ -88,6 +90,7 @@ class PlayerStatsYTD extends Component {
               <th onClick={()=>{this.props.SortPlayers(PlayerUtils.sortBy['recYds'](this.state.players))}}>Rec Yds</th>
               <th onClick={()=>{this.props.SortPlayers(PlayerUtils.sortBy['recTD'](this.state.players))}}>Rec TD</th>
               <th onClick={()=>{this.props.SortPlayers(PlayerUtils.sortBy['fumbles'](this.state.players))}}>Fum</th>
+              <th onClick={() =>{this.props.SortPlayers(PlayerUtils.sortBy['totalPoints'](this.state.players))}}>TotalPoints</th>
             </tr>
             {this.displayStats()}
           </tbody>
