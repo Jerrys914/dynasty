@@ -31,16 +31,17 @@ class NFLDailyStats extends Component {
       this.props.nflDailyStats.playerstatsentry.map((player)=>{
         let newPlayer = PlayerUtils.getPlayerInfo(player);
         if(newPlayer){
+          newPlayer.totalPoints = PlayerUtils.totalPointsGenerator(newPlayer);
           this.state.players.push(newPlayer);
         } 
       });
-      this.state.players = PlayerUtils.sortBy['totalPoints'](this.state.players).sorted; 
+      // this.state.players = PlayerUtils.sortBy['totalPoints'](this.state.players).sorted; 
     } else {
-      if(this.props.nflDailyStats.sorted){
-        this.state.players = this.props.nflDailyStats.sorted
-      } else {
-        this.state.players = this.props.nflDailyStats
-      }
+      // if(this.props.nflDailyStats.sorted){
+      //   this.state.players = this.props.nflDailyStats.sorted
+      // } else {
+      //   this.state.players = this.props.nflDailyStats
+      // }
     }
     return this.state.players.filter(this.contains).map((player)=>{
       return(
