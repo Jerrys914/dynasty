@@ -15,8 +15,24 @@ class MLBDailyStats extends Component {
         batters: [],
         pitchers: []
       },
-      display: 'all'
-    }
+      display: 'all',
+      filter: ' '
+    };
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSelect = this.handleSelect.bind(this);
+    this.contains = this.contains.bind(this);
+  }
+
+  contains(value) {
+    return value.fullName.toLowerCase().indexOf(this.state.filter.toLowerCase()) >= 0;
+  }
+
+  handleChange(event) {
+    this.setState({filter: event.target.value});
+  }
+
+  handleSelect(event) {
+    this.setState({display: event.target.value});
   }
 
   displayStats(){ 
@@ -32,7 +48,7 @@ class MLBDailyStats extends Component {
         }
       });
     }
-    return this.state.players[this.state.display].map((player)=>{
+    return this.state.players[this.state.display].filter(this.contains).map((player)=>{
       if(this.state.display === 'batters'){
         return(
           <tr key={player.fullName + player.teamAbv + player.position}>
@@ -117,12 +133,20 @@ class MLBDailyStats extends Component {
     }
     return(
       <div>
-        <div><h1>Baseball Daily Stats</h1></div>
-        Sort by: <ul>
-        <li onClick={()=>{this.state.display = 'all'; this.forceUpdate()}}>All Players</li>
-        <li onClick={()=>{this.state.display = 'batters'; this.forceUpdate()}}>Batters</li>
-        <li onClick={()=>{this.state.display = 'pitchers'; this.forceUpdate()}}>Pitchers</li>
-        </ul>
+        <div><h1>Baseball Daily YTD</h1></div>
+        <lable>
+        Sort By:
+          <select value={this.state.value} onChange={this.handleSelect}>
+            <option value="all">All Players</option>
+            <option value="batters">All Batters</option>
+            <option value="pitchers">All Pitchers</option>
+          </select>
+        </lable>
+        <br />
+        <label>
+          Filter:
+          <input value={this.state.filter} onChange={this.handleChange} />
+        </label>
         <table>
           <tbody>
             {this.renderHeader()}

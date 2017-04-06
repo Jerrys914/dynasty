@@ -8,13 +8,21 @@ import SortPlayers from '../../actions/nba/sortPlayersDaily.js'
 class NBADailyStats extends Component {
   constructor(props) {
     super(props);
+    this.props.getDailyStats();
     this.state = {
-      players: []
-    }
+      players: [],
+      filter: ''
+    };
+    this.handleChange = this.handleChange.bind(this);
+    this.contains = this.contains.bind(this);
   }
 
-  componentWillMount(props){
-    this.props.getDailyStats();
+  contains(value) {
+    return value.fullName.toLowerCase().indexOf(this.state.filter.toLowerCase()) >= 0;
+  }
+
+  handleChange(event){
+    this.setState({filter: event.target.value});
   }
 
   displayStats(){
@@ -35,7 +43,7 @@ class NBADailyStats extends Component {
 
     }
     console.log('PLAYERS: ', this.state.players)
-    return this.state.players.map((player)=>{
+    return this.state.players.filter(this.contains).map((player)=>{
       return(
         <tr key={player.fullName + Math.random()}>
           <td>{player.fullName}</td>
@@ -59,6 +67,11 @@ class NBADailyStats extends Component {
     return(
       <div>
         <div><h1>NBA Daily Stats</h1></div>
+        <label>
+          Filter:
+          <input value={this.state.filter} onChange={this.handleChange} />
+        </label>
+        <br />
         <table>
         <tbody>
           <tr>

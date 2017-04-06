@@ -77,7 +77,7 @@ module.exports = (app, passport) => {
     if(hour < 5) {
       date = year + month + (day-1);
     } else {
-      date = year + month + day;
+      date = year + month + (day-1);
     }
 
     let options = {

@@ -23,7 +23,7 @@ import LeagueStandings from './components/league/standings.js';
 
 const createStoreWithMiddleware = createStore(reducers, composeWithDevTools(
   applyMiddleware(ReduxPromise),
-  // persistState()
+  persistState()
   // other store enhancers if any
 ));
 

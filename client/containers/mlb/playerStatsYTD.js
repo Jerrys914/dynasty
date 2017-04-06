@@ -11,7 +11,7 @@ class PlayerStatsYTD extends Component {
     this.props.getMLBPlayerStatsYTD();
     this.state = {
       players: {
-        all: [{fullName:'test Test', teamAbv:'TST', position: 'T'}],
+        all: [],
         batters: [],
         pitchers: []
       },
@@ -19,27 +19,23 @@ class PlayerStatsYTD extends Component {
       filter: ' '
     };
     this.handleChange = this.handleChange.bind(this);
+    this.handleSelect = this.handleSelect.bind(this);
     this.contains = this.contains.bind(this);
   }
 
   contains(value) {
-    console.log('filter: ',this.state.filter.toLowerCase())
-    console.log('FULLNAME: ', value.fullName.toLowerCase())
-    console.log('contains: ', value.fullName.toLowerCase().indexOf(this.state.filter.toLowerCase()))
     return value.fullName.toLowerCase().indexOf(this.state.filter.toLowerCase()) >= 0;
   }
 
   handleChange(event) {
-    console.log('change: ',event.target.value)
-    if(event.target.value === '') {
-      console.log('BLANK')
-      event.target.value = ' '
-    }
     this.setState({filter: event.target.value});
   }
 
+  handleSelect(event) {
+    this.setState({display: event.target.value});
+  }
+
   displayStats(){ 
-    console.log('display: ', this.state.display)
     if(this.props.mlbSeasonStats.playerstatsentry){
       this.state.players = { all: [], batters: [], pitchers: [] };
       this.props.mlbSeasonStats.playerstatsentry.map((player)=>{
@@ -138,11 +134,15 @@ class PlayerStatsYTD extends Component {
     return(
       <div>
         <div><h1>Baseball Stats YTD</h1></div>
-        Sort by: <ul>
-        <li onClick={()=>{this.setState({display: 'all'}) }}>All Players</li>
-        <li onClick={()=>{this.setState({display: 'batters'}) }}>Batters</li>
-        <li onClick={()=>{this.setState({display: 'pitchers'}) }}>Pitchers</li>
-        </ul>
+        <lable>
+        Sort By:
+          <select value={this.state.value} onChange={this.handleSelect}>
+            <option value="all">All Players</option>
+            <option value="batters">All Batters</option>
+            <option value="pitchers">All Pitchers</option>
+          </select>
+        </lable>
+        <br />
         <label>
           Filter:
           <input value={this.state.filter} onChange={this.handleChange} />

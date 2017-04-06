@@ -8,33 +8,42 @@ import SortPlayers from '../../actions/nba/sortPlayersYTD.js';
 class PlayerStatsYTD extends Component {
   constructor(props) {
     super(props);
+    this.props.getNBAPlayerStatsYTD();
     this.state = {
-      players: []
+      players: [],
+      filter: ''
     };
+    this.handleChange = this.handleChange.bind(this);
+    this.contains = this.contains.bind(this);
   }
 
-  componentWillMount(props){
-    this.props.getNBAPlayerStatsYTD();
+  contains(value) {
+    return value.fullName.toLowerCase().indexOf(this.state.filter.toLowerCase()) >= 0;
+  }
+
+  handleChange(event){
+    this.setState({filter: event.target.value});
   }
 
   displayStats(){
-    if(this.props.NBAPlayerStatsYTD.playerstatsentry){
+    if(this.props.nbaPlayerStatsYTD.playerstatsentry){
       this.state.players = [];
-      this.props.NBAPlayerStatsYTD.playerstatsentry.map((player)=>{
+      this.props.nbaPlayerStatsYTD.playerstatsentry.map((player)=>{
         let newPlayer = PlayerUtils.getPlayerInfo(player);
         this.state.players.push(newPlayer);
         newPlayer.totalPoints = PlayerUtils.totalPointsGenerator(newPlayer) + PlayerUtils.applyBonus(newPlayer);
       });
       this.state.players = PlayerUtils.sortBy['totalPoints'](this.state.players).sorted; 
     } else {
-      if(this.props.NBAPlayerStatsYTD.sorted){
-        this.state.players = this.props.NBAPlayerStatsYTD.sorted
+      if(this.props.nbaPlayerStatsYTD.sorted){
+        this.state.players = this.props.nbaPlayerStatsYTD.sorted
       } else {
-        this.state.players = this.props.NBAPlayerStatsYTD
+        this.state.players = this.props.nbaPlayerStatsYTD
       }
 
     }
-    return this.state.players.map((player)=>{
+    console.log('PLAYERS: ', this.state.players)
+    return this.state.players.filter(this.contains).map((player)=>{
       return(
         <tr key={player.fullName + Math.random()}>
           <td>{player.fullName}</td>
@@ -57,7 +66,12 @@ class PlayerStatsYTD extends Component {
   render(){
     return(
       <div>
-        <div><h1>NBA YTD Stats</h1></div>
+        <div><h1>NBA Stats YTD</h1></div>
+        <label>
+          Filter:
+          <input value={this.state.filter} onChange={this.handleChange} />
+        </label>
+        <br />
         <table>
         <tbody>
           <tr>
@@ -84,7 +98,7 @@ class PlayerStatsYTD extends Component {
 
 const mapStateToProps = state => {
   return {
-    NBAPlayerStatsYTD: state.nbaPlayerStatsYTD
+    nbaPlayerStatsYTD: state.nbaPlayerStatsYTD
   }
 };
 
