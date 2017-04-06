@@ -1,6 +1,6 @@
 const sortMLBPlayersYTD = playersArr => {
   return {
-    type: 'SORT_MLB_PLAYERS_YTD',
+    type: 'SORT_MLB_PLAYERS_DAILY',
     payload: playersArr
   }
 }

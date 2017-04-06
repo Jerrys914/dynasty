@@ -156,6 +156,35 @@ module.exports = (app, passport) => {
     };
     request(options, callback);
   });
+  app.get('/api/mlb/dailyStats', isLoggedIn, (req,res) => {
+    let d = new Date();
+    let year = d.getFullYear() + '';
+    let month = ((d.getMonth() + 1) <9) ? '0' + (d.getMonth() + 1) : (d.getMonth() + 1) + '';
+    let day = d.getDate() < 10 ? '0'+ d.getDate() : d.getDate() + '';
+    let date;
+    let hour = d.getHours();
+    if(hour < 5) {
+      date = year + month + (day-1);
+    } else {
+      date = year + month + (day);
+    }
+
+    let options = {
+      url: 'https://www.mysportsfeeds.com/api/feed/pull/mlb/2017-regular/daily_player_stats.json?fordate=' + date,
+      headers: {
+       'User-Agent': 'request',
+        'Authorization': 'Basic ' + authorization
+      }
+    };
+    const callback = (err, response, data) => {
+      if(data){
+        res.send(JSON.parse(data))
+      } else {
+        res.send(data)
+      }
+    };
+    request(options,callback);
+  });
 //======================================================================================================================================
 
 // League Routes

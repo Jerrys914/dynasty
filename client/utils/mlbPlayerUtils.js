@@ -263,6 +263,7 @@ const sortByWHIP = playersArr => {
   }
 };
 const sortBy = {
+  name: sortByName,
   runs: sortByRuns,
   hr: sortByHR,
   rbi: sortByRBI,
