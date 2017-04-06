@@ -8,13 +8,21 @@ import SortPlayers from '../../actions/nfl/sortPlayersYTD.js';
 class PlayerStatsYTD extends Component {
   constructor(props) {
     super(props);
+    this.props.getNFLPlayerStatsYTD();
     this.state = {
-      players: []
+      players: [],
+      filter: ''
     }
+    this.handleChange = this.handleChange.bind(this);
+    this.contains = this.contains.bind(this);
   }
 
-  componentWillMount(props){
-    this.props.getNFLPlayerStatsYTD();
+  contains(value){
+    return value.fullName.toLowerCase().indexOf(this.state.filter.toLowerCase()) >= 0;
+  }
+
+  handleChange(event){
+    this.setState({filter: event.target.value});
   }
 
   displayStats(){ 
@@ -24,10 +32,8 @@ class PlayerStatsYTD extends Component {
         let newPlayer = PlayerUtils.getPlayerInfo(player);
         if(newPlayer){
           this.state.players.push(newPlayer);
-          // newPlayer.totalPoints = PlayerUtils.totalPointsGenerator(newPlayer) + PlayerUtils.applyBonus(newPlayer);
         } 
       });
-      // this.state.players = PlayerUtils.sortBy['totalPoints'](this.state.players).sorted; 
     } else {
       if(this.props.nflSeasonStats.sorted){
         this.state.players = this.props.nflSeasonStats.sorted
@@ -36,7 +42,7 @@ class PlayerStatsYTD extends Component {
       }
 
     }
-    return this.state.players.map((player)=>{
+    return this.state.players.filter(this.contains).map((player)=>{
       return(
         <tr key={player.fullName + Math.random()}>
           <td>{player.fullName}</td>
@@ -61,6 +67,11 @@ class PlayerStatsYTD extends Component {
     return(
       <div>
         <div><h1>Football Stats YTD</h1></div>
+        <label>
+          Filter:
+          <input value={this.state.filter} onChange={this.handleChange} />
+        </label>
+        <br />
         <table>
           <tbody>
             <tr>
