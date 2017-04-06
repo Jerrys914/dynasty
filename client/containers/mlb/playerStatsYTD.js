@@ -11,17 +11,37 @@ class PlayerStatsYTD extends Component {
     this.props.getMLBPlayerStatsYTD();
     this.state = {
       players: {
-        all: [],
+        all: [{fullName:'test Test', teamAbv:'TST', position: 'T'}],
         batters: [],
         pitchers: []
       },
-      display: 'all'
+      display: 'all',
+      filter: ' '
+    };
+    this.handleChange = this.handleChange.bind(this);
+    this.contains = this.contains.bind(this);
+  }
+
+  contains(value) {
+    console.log('filter: ',this.state.filter.toLowerCase())
+    console.log('FULLNAME: ', value.fullName.toLowerCase())
+    console.log('contains: ', value.fullName.toLowerCase().indexOf(this.state.filter.toLowerCase()))
+    return value.fullName.toLowerCase().indexOf(this.state.filter.toLowerCase()) >= 0;
+  }
+
+  handleChange(event) {
+    console.log('change: ',event.target.value)
+    if(event.target.value === '') {
+      console.log('BLANK')
+      event.target.value = ' '
     }
+    this.setState({filter: event.target.value});
   }
 
   displayStats(){ 
+    console.log('display: ', this.state.display)
     if(this.props.mlbSeasonStats.playerstatsentry){
-      this.state.players[this.state.display] = [];
+      this.state.players = { all: [], batters: [], pitchers: [] };
       this.props.mlbSeasonStats.playerstatsentry.map((player)=>{
         let newPlayer = PlayerUtils.getPlayerInfo(player);
         this.state.players.all.push(newPlayer);
@@ -31,17 +51,8 @@ class PlayerStatsYTD extends Component {
           this.state.players.batters.push(newPlayer); 
         }
       });
-    } else {
-      if(this.props.mlbSeasonStats.sorted){
-        if(this.state.display !== 'all'){
-          this.state.players[this.state.display] = this.props.mlbSeasonStats.sorted
-        }
-      } else {
-        this.state.players[this.state.display] = this.props.mlbSeasonStats
-      }
     }
-    console.log('DISPLAY STATE: ', this.state.players)
-    return this.state.players[this.state.display].map((player)=>{
+    return this.state.players[this.state.display].filter(this.contains).map((player)=>{
       if(this.state.display === 'batters'){
         return(
           <tr key={player.fullName + player.teamAbv + player.position}>
@@ -119,7 +130,6 @@ class PlayerStatsYTD extends Component {
   }
 
   render(){
-    console.log('RENDER DISPLAY: ', this.state.display)
     if(this.state.display === 'pitchers'){
 
     }else if(this.state.display === 'batters'){
@@ -129,10 +139,14 @@ class PlayerStatsYTD extends Component {
       <div>
         <div><h1>Baseball Stats YTD</h1></div>
         Sort by: <ul>
-        <li onClick={()=>{console.log('ALL PLAYERS'); this.state.display = 'all'; this.forceUpdate()}}>All Players</li>
-        <li onClick={()=>{console.log('ALL BATTERS'); this.state.display = 'batters'; this.forceUpdate()}}>Batters</li>
-        <li onClick={()=>{console.log('ALL PITCHERS'); this.state.display = 'pitchers'; this.forceUpdate()}}>Pitchers</li>
+        <li onClick={()=>{this.setState({display: 'all'}) }}>All Players</li>
+        <li onClick={()=>{this.setState({display: 'batters'}) }}>Batters</li>
+        <li onClick={()=>{this.setState({display: 'pitchers'}) }}>Pitchers</li>
         </ul>
+        <label>
+          Filter:
+          <input value={this.state.filter} onChange={this.handleChange} />
+        </label>
         <table>
           <tbody>
             {this.renderHeader()}

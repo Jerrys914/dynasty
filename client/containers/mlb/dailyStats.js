@@ -20,8 +20,6 @@ class MLBDailyStats extends Component {
   }
 
   displayStats(){ 
-    console.log('RENDER DISPLAY: ', this.state.display)
-    console.log('RENDER STATE: ', this.props.mlbDailyStats)
     if(this.props.mlbDailyStats.playerstatsentry){
       this.state.players = { all: [], batters: [], pitchers: [] };
       this.props.mlbDailyStats.playerstatsentry.map((player)=>{
