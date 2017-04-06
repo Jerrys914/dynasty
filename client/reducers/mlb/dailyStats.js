@@ -5,7 +5,7 @@ export default function(state=[], action) {
         console.log('REDUCER: ', action.payload.data)
         return action.payload.data.dailyplayerstats;
       }
-    case 'MLB_PLAYER_STATS_DAILY':
+    case 'SORT_MLB_PLAYERS_DAILY':
         console.log('REDUCER: ', action.payload)
       if(action.payload){
         return action.payload

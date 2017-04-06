@@ -33,11 +33,14 @@ class PlayerStatsYTD extends Component {
       });
     } else {
       if(this.props.mlbSeasonStats.sorted){
-        this.state.players[this.state.display] = this.props.mlbSeasonStats.sorted
+        if(this.state.display !== 'all'){
+          this.state.players[this.state.display] = this.props.mlbSeasonStats.sorted
+        }
       } else {
         this.state.players[this.state.display] = this.props.mlbSeasonStats
       }
     }
+    console.log('DISPLAY STATE: ', this.state.players)
     return this.state.players[this.state.display].map((player)=>{
       if(this.state.display === 'batters'){
         return(

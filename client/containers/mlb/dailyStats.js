@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import getMLBDailyStats from '../../actions/mlb/dailyStats.js';
 import PlayerUtils from '../../utils/mlbPlayerUtils.js';
-import SortPlayers from '../../actions/mlb/sortPlayersYTD.js';
+import SortPlayers from '../../actions/mlb/sortPlayersDaily.js';
 
 class MLBDailyStats extends Component {
   constructor(props) {
@@ -20,8 +20,10 @@ class MLBDailyStats extends Component {
   }
 
   displayStats(){ 
+    console.log('RENDER DISPLAY: ', this.state.display)
+    console.log('RENDER STATE: ', this.props.mlbDailyStats)
     if(this.props.mlbDailyStats.playerstatsentry){
-      this.state.players[this.state.display] = [];
+      this.state.players = { all: [], batters: [], pitchers: [] };
       this.props.mlbDailyStats.playerstatsentry.map((player)=>{
         let newPlayer = PlayerUtils.getPlayerInfo(player);
         this.state.players.all.push(newPlayer);
@@ -31,12 +33,6 @@ class MLBDailyStats extends Component {
           this.state.players.batters.push(newPlayer); 
         }
       });
-    } else {
-      if(this.props.mlbDailyStats.sorted){
-        this.state.players[this.state.display] = this.props.mlbDailyStats.sorted
-      } else {
-        this.state.players[this.state.display] = this.props.mlbDailyStats
-      }
     }
     return this.state.players[this.state.display].map((player)=>{
       if(this.state.display === 'batters'){
@@ -116,7 +112,6 @@ class MLBDailyStats extends Component {
   }
 
   render(){
-    console.log('RENDER DISPLAY: ', this.state.display)
     if(this.state.display === 'pitchers'){
 
     }else if(this.state.display === 'batters'){

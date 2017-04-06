@@ -1,7 +1,10 @@
-const sortMLBPlayersYTD = playersArr => {
+const sortMLBPlayersYTD = (playersArr, sort) => {
   return {
     type: 'SORT_MLB_PLAYERS_YTD',
-    payload: playersArr
+    payload: {
+      playersArr,
+      sort,
+    }
   }
 }
 
