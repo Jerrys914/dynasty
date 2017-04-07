@@ -26,19 +26,19 @@ class PlayerStatsYTD extends Component {
   }
 
   displayStats(){
-    if(this.props.nbaPlayerStatsYTD.playerstatsentry){
+    if(this.props.NBASeasonStats.playerstatsentry){
       this.state.players = [];
-      this.props.nbaPlayerStatsYTD.playerstatsentry.map((player)=>{
+      this.props.NBASeasonStats.playerstatsentry.map((player)=>{
         let newPlayer = PlayerUtils.getPlayerInfo(player);
         newPlayer.totalPoints = PlayerUtils.totalPointsGenerator(newPlayer) + PlayerUtils.applyBonus(newPlayer);
         this.state.players.push(newPlayer);
       });
       this.state.players = PlayerUtils.sortBy['totalPoints'](this.state.players).sorted; 
     } else {
-      if(this.props.nbaPlayerStatsYTD.sorted){
-        this.state.players = this.props.nbaPlayerStatsYTD.sorted
+      if(this.props.NBASeasonStats.sorted){
+        this.state.players = this.props.NBASeasonStats.sorted
       } else {
-        this.state.players = this.props.nbaPlayerStatsYTD
+        this.state.players = this.props.NBASeasonStats
       }
 
     }
@@ -97,7 +97,7 @@ class PlayerStatsYTD extends Component {
 
 const mapStateToProps = state => {
   return {
-    nbaPlayerStatsYTD: state.NBASeasonStats
+    NBASeasonStats: state.NBASeasonStats
   }
 };
 

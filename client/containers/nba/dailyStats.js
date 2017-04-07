@@ -26,19 +26,19 @@ class NBADailyStats extends Component {
   }
 
   displayStats(){
-    if(this.props.nbaStatsForDay.playerstatsentry){
+    if(this.props.NBADailyStats.playerstatsentry){
       this.state.players = [];
-      this.props.nbaStatsForDay.playerstatsentry.map((player)=>{
+      this.props.NBADailyStats.playerstatsentry.map((player)=>{
         let newPlayer = PlayerUtils.getPlayerInfo(player);
         this.state.players.push(newPlayer);
         newPlayer.totalPoints = PlayerUtils.totalPointsGenerator(newPlayer) + PlayerUtils.applyBonus(newPlayer);
       });
       this.state.players = PlayerUtils.sortBy['totalPoints'](this.state.players).sorted; 
     } else {
-      if(this.props.nbaStatsForDay.sorted){
-        this.state.players = this.props.nbaStatsForDay.sorted
+      if(this.props.NBADailyStats.sorted){
+        this.state.players = this.props.NBADailyStats.sorted
       } else {
-        this.state.players = this.props.nbaStatsForDay
+        this.state.players = this.props.NBADailyStats
       }
     }
     return this.state.players.filter(this.contains).map((player)=>{
@@ -96,7 +96,7 @@ class NBADailyStats extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    nbaStatsForDay: state.NBADailyStats
+    NBADailyStats: state.NBADailyStats
   }
 };
 
