@@ -101,8 +101,4 @@ const mapStateToProps = state => {
   }
 };
 
-const mapDispatchToProps = dispatch => {
-  return bindActionCreators({ getNBAPlayerStatsYTD, SortPlayers }, dispatch);
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(PlayerStatsYTD);
+export default connect(mapStateToProps, { getNBAPlayerStatsYTD, SortPlayers )(PlayerStatsYTD);

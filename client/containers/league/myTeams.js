@@ -55,8 +55,4 @@ const mapStateToProps = state => {
   }
 };
 
-const mapDispatchToProps = dispatch => {
-  return bindActionCreators({ getTeams }, dispatch);
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(MyTeams);
+export default connect(mapStateToProps, { getTeams })(MyTeams);
