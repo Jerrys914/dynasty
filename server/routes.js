@@ -77,7 +77,7 @@ module.exports = (app, passport) => {
     if(hour < 5) {
       date = year + month + (day-1);
     } else {
-      date = year + month + (day-1);
+      date = year + month + (day);
     }
 
     let options = {
@@ -106,6 +106,9 @@ module.exports = (app, passport) => {
       }
     };
     const callback = (err, response, data) => {
+      if(err) {
+        console.error(err)
+      }
       if(data){
         res.send(JSON.parse(data))
       } else {
@@ -166,7 +169,7 @@ module.exports = (app, passport) => {
     if(hour < 5) {
       date = year + month + (day-1);
     } else {
-      date = year + month + (day-1);
+      date = year + month + (day);
     }
 
     let options = {

@@ -42,7 +42,6 @@ class PlayerStatsYTD extends Component {
       }
 
     }
-    console.log('PLAYERS: ', this.state.players)
     return this.state.players.filter(this.contains).map((player)=>{
       return(
         <tr key={player.fullName + Math.random()}>
@@ -98,7 +97,7 @@ class PlayerStatsYTD extends Component {
 
 const mapStateToProps = state => {
   return {
-    nbaPlayerStatsYTD: state.nbaPlayerStatsYTD
+    nbaPlayerStatsYTD: state.NBASeasonStats
   }
 };
 

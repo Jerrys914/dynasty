@@ -15,13 +15,10 @@ class NBATeam extends Component {
     }
   }
 
-  componentWillMount(props){
-  }
-
   render() {
     return(
       <div>
-      My NBA Team
+        My NBA Team
       </div>
     )
   }

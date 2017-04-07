@@ -13,9 +13,6 @@ class MLBTeam extends Component {
     }
   }
 
-  componentWillMount(props){
-  }
-
   render() {
     return(
       <div>My MLB Team</div>

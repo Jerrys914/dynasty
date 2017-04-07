@@ -40,9 +40,7 @@ class NBADailyStats extends Component {
       } else {
         this.state.players = this.props.nbaStatsForDay
       }
-
     }
-    console.log('PLAYERS: ', this.state.players)
     return this.state.players.filter(this.contains).map((player)=>{
       return(
         <tr key={player.fullName + Math.random()}>
@@ -98,7 +96,7 @@ class NBADailyStats extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    nbaStatsForDay: state.nbaStatsForDay
+    nbaStatsForDay: state.NBADailyStats
   }
 };
 

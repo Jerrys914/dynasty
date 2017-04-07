@@ -35,15 +35,7 @@ class PlayerStatsYTD extends Component {
           this.state.players.push(newPlayer);
         } 
       });
-    } else {
-      // if(this.props.nflSeasonStats.sorted){
-      //   this.state.players = this.props.nflSeasonStats.sorted
-      // } else {
-      //   this.state.players = this.props.nflSeasonStats
-      // }
-
     }
-    console.log('STATE: ', this.state.players)
     return this.state.players.filter(this.contains).map((player)=>{
       return(
         <tr key={player.fullName + Math.random()}>

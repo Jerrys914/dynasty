@@ -18,7 +18,6 @@ const getYearByLeagueId = leagueId => {
 const getLeagueMembers = (userId, leagueInfo) => {
   leagueInfo = JSON.parse(leagueInfo);
   return getMemberId(userId).then(memberId => {
-    console.log('MEMBER ID: ', memberId)
     return getYearByLeagueId(leagueInfo.id).then(year=> {
       year = year[year.length-1];
       return knex('Members').where({
@@ -28,9 +27,6 @@ const getLeagueMembers = (userId, leagueInfo) => {
       })
     })
   });
-  // return Promise.all([getMembers]).then(members => {
-  //   return members;
-  // })
 };
 
 module.exports ={

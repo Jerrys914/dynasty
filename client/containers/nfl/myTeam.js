@@ -13,9 +13,6 @@ class NFLTeam extends Component {
     }
   }
 
-  componentWillMount(props){
-  }
-
   render() {
     return(
       <div>My NFL Team</div>

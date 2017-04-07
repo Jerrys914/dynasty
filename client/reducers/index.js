@@ -12,8 +12,8 @@ import LeagueInfo from './league/leagueInfo.js';
 import UserInfo from './user/userInfo.js';
 
 let rootReducer = combineReducers({
-  nbaPlayerStatsYTD: NBASeasonStats,
-  nbaStatsForDay: NBADailyStats,
+  NBASeasonStats,
+  NBADailyStats,
   NFLSeasonStats,
   NFLDailyStats,
   MLBSeasonStats,

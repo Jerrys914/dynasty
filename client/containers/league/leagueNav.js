@@ -8,10 +8,6 @@ class LEAGUENAV extends Component {
     super(props);
   }
 
-  componentDidReceiveProps(props){
-    console.log('PROPS: ', props)
-  }
-
   render(){
     return(
       <div>
