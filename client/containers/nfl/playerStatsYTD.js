@@ -35,6 +35,7 @@ class PlayerStatsYTD extends Component {
           this.state.players.push(newPlayer);
         } 
       });
+      this.state.players = PlayerUtils.sortBy['totalPoints'](this.state.players).sorted; 
     }
     return this.state.players.filter(this.contains).map((player)=>{
       return(

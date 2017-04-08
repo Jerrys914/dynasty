@@ -101,4 +101,4 @@ const mapStateToProps = state => {
   }
 };
 
-export default connect(mapStateToProps, { getNBAPlayerStatsYTD, SortPlayers )(PlayerStatsYTD);
+export default connect(mapStateToProps, { getNBAPlayerStatsYTD, SortPlayers })(PlayerStatsYTD);

@@ -16,10 +16,13 @@ class MLBDailyStats extends Component {
         pitchers: []
       },
       display: 'all',
-      filter: ' '
+      filter: ' ',
+      position: 'all'
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSelect = this.handleSelect.bind(this);
+    this.handlePosition = this.handlePosition.bind(this);
+    this.positionFilter = this.positionFilter.bind(this);
     this.contains = this.contains.bind(this);
   }
 
@@ -35,6 +38,23 @@ class MLBDailyStats extends Component {
     this.setState({display: event.target.value});
   }
 
+  handlePosition(event){
+    this.setState({position: event.target.value})
+  }
+
+  positionFilter(playersArr, position){
+    if(position === 'all'){
+      return playersArr
+    }
+    let result = [];
+    playersArr.forEach(player =>{
+      if(player.position == position) {
+        result.push(player);
+      }
+    });
+    return result;
+  }
+
   displayStats(){ 
     if(this.props.mlbDailyStats.playerstatsentry){
       this.state.players = { all: [], batters: [], pitchers: [] };
@@ -48,7 +68,7 @@ class MLBDailyStats extends Component {
         }
       });
     }
-    return this.state.players[this.state.display].filter(this.contains).map((player)=>{
+    return this.positionFilter(this.state.players[this.state.display].filter(this.contains),this.state.position).map((player)=>{
       if(this.state.display === 'batters'){
         return(
           <tr key={player.fullName + player.teamAbv + player.position}>
@@ -85,6 +105,24 @@ class MLBDailyStats extends Component {
         </tr>
       )
     })
+  }
+
+  renderSelect(){
+    if(this.state.display === 'batters'){
+      return (
+        <select value={this.state.value} onChange={this.handlePosition}>
+          <option value='all'>All</option>
+          <option value="C">C</option>
+          <option value="1B">1B</option>
+          <option value="2B">2B</option>
+          <option value="3B">3B</option>
+          <option value="SS">SS</option>
+          <option value="OF">OF</option>
+          <option value="DH">DH</option>
+        </select>
+      )
+    } 
+    return
   }
 
   renderHeader(){
@@ -133,14 +171,15 @@ class MLBDailyStats extends Component {
     }
     return(
       <div>
-        <div><h1>Baseball Daily YTD</h1></div>
+        <div><h1>Baseball Daily Stats</h1></div>
         <lable>
-        Sort By:
+          Sort By:
           <select value={this.state.value} onChange={this.handleSelect}>
             <option value="all">All Players</option>
-            <option value="batters">All Batters</option>
-            <option value="pitchers">All Pitchers</option>
+            <option value="batters">Batters</option>
+            <option value="pitchers">Pitchers</option>
           </select>
+        {this.renderSelect()}
         </lable>
         <br />
         <label>

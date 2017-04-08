@@ -12,6 +12,9 @@ const getPlayerInfo = playerObj => {
       whip: playerObj.stats.WalksAndHitsPerInningPitched['#text']
     }
   }
+  if(playerObj.player.Position ==='LF' || playerObj.player.Position ==='CF' || playerObj.player.Position ==='RF') {
+    playerObj.player.Position = 'OF'
+  };
   return {
     fullName: playerObj.player.FirstName + ' ' + playerObj.player.LastName,
     position: playerObj.player.Position,
