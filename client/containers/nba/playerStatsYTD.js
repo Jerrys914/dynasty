@@ -9,11 +9,13 @@ class PlayerStatsYTD extends Component {
   constructor(props) {
     super(props);
     this.props.getNBAPlayerStatsYTD();
-    this.state = {
+     this.state = {
       players: [],
-      filter: ''
+      filter: '',
+      position: 'all'
     };
     this.handleChange = this.handleChange.bind(this);
+    this.handlePosition = this.handlePosition.bind(this);
     this.contains = this.contains.bind(this);
   }
 
@@ -25,13 +27,30 @@ class PlayerStatsYTD extends Component {
     this.setState({filter: event.target.value});
   }
 
+  handlePosition(event){
+    this.setState({position: event.target.value})
+  }
+
+  positionFilter(playersArr, position){
+    if(position === 'all'){
+      return playersArr
+    }
+    let result = [];
+    playersArr.forEach(player =>{
+      if(player.position.indexOf(position) >= 0) {
+        result.push(player);
+      }
+    });
+    return result;
+  }
+
   displayStats(){
     if(this.props.NBASeasonStats.playerstatsentry){
       this.state.players = [];
       this.props.NBASeasonStats.playerstatsentry.map((player)=>{
         let newPlayer = PlayerUtils.getPlayerInfo(player);
-        newPlayer.totalPoints = PlayerUtils.totalPointsGenerator(newPlayer) + PlayerUtils.applyBonus(newPlayer);
         this.state.players.push(newPlayer);
+        newPlayer.totalPoints = PlayerUtils.totalPointsGenerator(newPlayer) + PlayerUtils.applyBonus(newPlayer);
       });
       this.state.players = PlayerUtils.sortBy['totalPoints'](this.state.players).sorted; 
     } else {
@@ -40,9 +59,8 @@ class PlayerStatsYTD extends Component {
       } else {
         this.state.players = this.props.NBASeasonStats
       }
-
     }
-    return this.state.players.filter(this.contains).map((player)=>{
+    return this.positionFilter(this.state.players.filter(this.contains), this.state.position).map((player)=>{
       return(
         <tr key={player.fullName + Math.random()}>
           <td>{player.fullName}</td>
@@ -65,12 +83,23 @@ class PlayerStatsYTD extends Component {
   render(){
     return(
       <div>
-        <div><h1>NBA Stats YTD</h1></div>
+        <div><h1>NBA Daily Stats</h1></div>
         <label>
           Filter:
           <input value={this.state.filter} onChange={this.handleChange} />
         </label>
         <br />
+        <label>
+          Sort By:
+          <select value={this.state.value} onChange={this.handlePosition}>
+            <option value='all'>All</option>
+            <option value="PG">PG</option>
+            <option value="SG">SG</option>
+            <option value="SF">SF</option>
+            <option value="PF">PF</option>
+            <option value="C">C</option>
+          </select>
+        </label>
         <table>
         <tbody>
           <tr>

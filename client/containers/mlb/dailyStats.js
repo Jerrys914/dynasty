@@ -172,6 +172,11 @@ class MLBDailyStats extends Component {
     return(
       <div>
         <div><h1>Baseball Daily Stats</h1></div>
+        <label>
+          Filter:
+          <input value={this.state.filter} onChange={this.handleChange} />
+        </label>
+        <br />
         <lable>
           Sort By:
           <select value={this.state.value} onChange={this.handleSelect}>
@@ -181,11 +186,6 @@ class MLBDailyStats extends Component {
           </select>
         {this.renderSelect()}
         </lable>
-        <br />
-        <label>
-          Filter:
-          <input value={this.state.filter} onChange={this.handleChange} />
-        </label>
         <table>
           <tbody>
             {this.renderHeader()}

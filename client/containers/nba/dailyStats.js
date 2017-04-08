@@ -11,9 +11,11 @@ class NBADailyStats extends Component {
     this.props.getDailyStats();
     this.state = {
       players: [],
-      filter: ''
+      filter: '',
+      position: 'all'
     };
     this.handleChange = this.handleChange.bind(this);
+    this.handlePosition = this.handlePosition.bind(this);
     this.contains = this.contains.bind(this);
   }
 
@@ -23,6 +25,23 @@ class NBADailyStats extends Component {
 
   handleChange(event){
     this.setState({filter: event.target.value});
+  }
+
+  handlePosition(event){
+    this.setState({position: event.target.value})
+  }
+
+  positionFilter(playersArr, position){
+    if(position === 'all'){
+      return playersArr
+    }
+    let result = [];
+    playersArr.forEach(player =>{
+      if(player.position.indexOf(position) >= 0) {
+        result.push(player);
+      }
+    });
+    return result;
   }
 
   displayStats(){
@@ -41,7 +60,7 @@ class NBADailyStats extends Component {
         this.state.players = this.props.NBADailyStats
       }
     }
-    return this.state.players.filter(this.contains).map((player)=>{
+    return this.positionFilter(this.state.players.filter(this.contains), this.state.position).map((player)=>{
       return(
         <tr key={player.fullName + Math.random()}>
           <td>{player.fullName}</td>
@@ -70,6 +89,17 @@ class NBADailyStats extends Component {
           <input value={this.state.filter} onChange={this.handleChange} />
         </label>
         <br />
+        <label>
+          Sort By:
+          <select value={this.state.value} onChange={this.handlePosition}>
+            <option value='all'>All</option>
+            <option value="PG">PG</option>
+            <option value="SG">SG</option>
+            <option value="SF">SF</option>
+            <option value="PF">PF</option>
+            <option value="C">C</option>
+          </select>
+        </label>
         <table>
         <tbody>
           <tr>

@@ -9,6 +9,9 @@ let pointsConverter = {
 };
 
 const getPlayerInfo = playerObj => {
+  if(playerObj.player.Position === 'G'){
+    playerObj.player.Position = 'PG,SG'
+  }
   return {
     fullName: playerObj.player.FirstName + ' ' + playerObj.player.LastName,
     number: playerObj.player.JerseyNumber,
