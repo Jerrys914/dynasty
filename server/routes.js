@@ -5,6 +5,7 @@ let request = require('request');
 let LeagueModel = require('./models/leagueModel.js');
 let MemberModel = require('./models/memberModel.js');
 let TeamModel = require('./models/teamModel.js');
+let MAILGUN = require('./mailgun/config.js');
 let authorization = base64.encode(process.env.USERNAME+':'+process.env.PASSWORD);
 
 const isLoggedIn = (req, res, next) => {
@@ -232,4 +233,7 @@ module.exports = (app, passport) => {
     res.send(passport.user);
   })
 //======================================================================================================================================
+  app.get('/api/mailgun', (req, res)=>{
+    MAILGUN.sendMail();
+  });
 };
