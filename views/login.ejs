@@ -22,11 +22,17 @@
         <div class='form-group'>
           <label>Password</label>
           <input type='password' class='form-control' name='password'>
+          <input type='hidden' name='token' value='<%= token %>'>
         </div>
         <button type='submit' class='btn btn-danger btn-lg'>Login</button>
       </form>
       <hr>
-      <p>Need an account? <a href='/api/signup'>Signup</a></p>
+      <% if(token){ %>
+        <p>Need an account? <a href='/api/signup/<%= token %>'>Signup</a></p>
+      <% } else { %>
+        <p>Need an account? <a href='/api/signup'>Signup</a></p>
+      <% } %>
+      
     </div>
   </div>
 </body>

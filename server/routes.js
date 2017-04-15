@@ -5,6 +5,7 @@ let request = require('request');
 let LeagueModel = require('./models/leagueModel.js');
 let MemberModel = require('./models/memberModel.js');
 let TeamModel = require('./models/teamModel.js');
+let YearModel = require('./models/yearModel.js');
 let MAILGUN = require('./mailgun/config.js');
 let authorization = base64.encode(process.env.USERNAME+':'+process.env.PASSWORD);
 
@@ -23,18 +24,29 @@ module.exports = (app, passport) => {
     app.use(express.static(path.join(__dirname, '/../client')));
     res.sendFile(path.join(__dirname, '/../client/index.html'))
   });
-
+  
   app.get('/api/login',(req, res) => {
-    res.render('login.ejs', {message: req.flash('loginMessage')}); //Render views/login.ejs w/ flash message
+    res.render('login.ejs', {message: req.flash('loginMessage'), token:req.token}); //Render views/login.ejs w/ flash message
   });
-  app.post('/api/login',passport.authenticate('local-login',{
+
+  app.get('/api/login/:token',(req, res) => {
+    res.render('login.ejs', {message: req.flash('loginMessage'), token:req.params.token}); //Render views/login.ejs w/ flash message
+  });
+  app.post('/api/login', passport.authenticate('local-login'),(req,res)=>{
+    if(req.body.token.length > 0){
+      res.redirect('/api/joinLeague/'+req.body.token);
+    }
+    res.redirect('/')
+  }
+
+  /*{
     successRedirect: '/', //Redirect to '/' route
     failureRedirect: '/api/login', //Redirect back to login page on failure
     failureFlash : true //Allow flash messages
-  }));
+  }*/);
 
   app.get('/api/signup',(req, res) => {
-    res.render('signup.ejs', {message: req.flash('signupMessage')}); //Render views/signup.ejs w/ flash message
+    res.render('signup.ejs', {message: req.flash('signupMessage'), joinToken: req.params.joinToken}); //Render views/signup.ejs w/ flash message
   });
   app.post('/api/signup', passport.authenticate('local-signup', { 
     successRedirect: '/', //Redirect to '/' route
@@ -233,7 +245,28 @@ module.exports = (app, passport) => {
     res.send(passport.user);
   })
 //======================================================================================================================================
-  app.get('/api/mailgun', (req, res)=>{
-    MAILGUN.sendMail();
+  app.post('/api/sendLeagueInvite', (req, res)=>{
+    let leagueId = req.body.leagueId;
+    console.log('leagueId: ', leagueId)
+    YearModel.getCurrentYearId(leagueId).then(year => {
+      console.log('YEAR: ', year)
+      console.log('UTF-8: ', JSON.stringify({leagueId:leagueId, yearId:year.id}))
+      let link = 'http://localhost:4000/api/joinLeague/' + base64.encode(JSON.stringify({leagueId:leagueId, yearId:year.id}))
+      MAILGUN.sendMail('jerry.shanahan@gmail.com', link);
+    })
+    res.end();
   });
+  app.get('/api/joinLeague/:token', (req,res) => {
+    if(!req.isAuthenticated()){
+      res.redirect('/api/login/'+req.params.token)
+    } else {
+      console.log('JOIN LEAGUE TOKEN: ', req.params.token);
+      let info = base64.decode(req.params.token)
+      info = JSON.parse(info);
+      console.log('INFO OBJECT: ', info);
+      console.log('JOIN USER: ', passport.user)
+      LeagueModel.joinLeague(info.leagueId, info.yearId, passport.user);
+      res.redirect('/')
+    }
+  })
 };
