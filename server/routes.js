@@ -26,33 +26,30 @@ module.exports = (app, passport) => {
   });
   
   app.get('/api/login',(req, res) => {
-    res.render('login.ejs', {message: req.flash('loginMessage'), token:req.token}); //Render views/login.ejs w/ flash message
+    res.render('login.ejs', {message: req.flash('loginMessage'), token:req.params.token}); //Render views/login.ejs w/ flash message
   });
-
   app.get('/api/login/:token',(req, res) => {
     res.render('login.ejs', {message: req.flash('loginMessage'), token:req.params.token}); //Render views/login.ejs w/ flash message
   });
-  app.post('/api/login', passport.authenticate('local-login'),(req,res)=>{
+  app.post('/api/login', passport.authenticate('local-login'),(req,res) => {
     if(req.body.token.length > 0){
       res.redirect('/api/joinLeague/'+req.body.token);
     }
     res.redirect('/')
-  }
-
-  /*{
-    successRedirect: '/', //Redirect to '/' route
-    failureRedirect: '/api/login', //Redirect back to login page on failure
-    failureFlash : true //Allow flash messages
-  }*/);
+  });
 
   app.get('/api/signup',(req, res) => {
-    res.render('signup.ejs', {message: req.flash('signupMessage'), joinToken: req.params.joinToken}); //Render views/signup.ejs w/ flash message
+    res.render('signup.ejs', {message: req.flash('signupMessage'), token:req.params.token}); //Render views/signup.ejs w/ flash message
   });
-  app.post('/api/signup', passport.authenticate('local-signup', { 
-    successRedirect: '/', //Redirect to '/' route
-    failureRedirect: '/api/signup', //Redirect back to signup page on failure
-    failureFlash: true //Allow flash messages
-  }));
+  app.get('/api/signup/:token',(req, res) => {
+    res.render('signup.ejs', {message: req.flash('signupMessage'), token:req.params.token}); //Render views/signup.ejs w/ flash message
+  });
+  app.post('/api/signup', passport.authenticate('local-signup'),(req,res) => {
+    if(req.body.token.length > 0){
+      res.redirect('/api/joinLeague/'+req.body.token);
+    }
+    res.redirect('/')
+  });
 
   app.get('/api/logout', isLoggedIn, (req, res) => {
     req.logout(); //Delete session for user

@@ -63,11 +63,19 @@ const createNewLeague = (name, user) => {
 };
 
 const joinLeague = (leagueId, yearId, user) => {
-  return knex('Members').insert({name: user.username+'\'s franchise', yearID: yearId, userID: user.id, isComish:false})
-  .then(member => {
-    TeamModel.createTeam(user.username, 'football', member[0])
-    TeamModel.createTeam(user.username, 'basketball', member[0])
-    TeamModel.createTeam(user.username, 'baseball', member[0])
+  return knex('Members').where({
+    userID: user.id,
+    yearID: yearId
+  }).then(member => {
+    console.log('member: ', member)
+    if(member.length === 0){
+      return knex('Members').insert({name: user.username+'\'s franchise', yearID: yearId, userID: user.id, isComish:false})
+      .then(member => {
+        TeamModel.createTeam(user.username, 'football', member[0])
+        TeamModel.createTeam(user.username, 'basketball', member[0])
+        TeamModel.createTeam(user.username, 'baseball', member[0])
+      })    
+    }
   })
 }
 
