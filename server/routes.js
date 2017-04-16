@@ -26,26 +26,30 @@ module.exports = (app, passport) => {
   });
   
   app.get('/api/login',(req, res) => {
+    req.session.returnTo = req.url
     res.render('login.ejs', {message: req.flash('loginMessage'), token:req.params.token}); //Render views/login.ejs w/ flash message
   });
   app.get('/api/login/:token',(req, res) => {
+    req.session.returnTo = req.url
     res.render('login.ejs', {message: req.flash('loginMessage'), token:req.params.token}); //Render views/login.ejs w/ flash message
   });
   app.post('/api/login', passport.authenticate('local-login'),(req,res) => {
-    if(req.body.token.length > 0){
+    if(req.body.token){
       res.redirect('/api/joinLeague/'+req.body.token);
     }
     res.redirect('/')
   });
 
   app.get('/api/signup',(req, res) => {
+    req.session.returnTo = req.url
     res.render('signup.ejs', {message: req.flash('signupMessage'), token:req.params.token}); //Render views/signup.ejs w/ flash message
   });
   app.get('/api/signup/:token',(req, res) => {
+    req.session.returnTo = req.url
     res.render('signup.ejs', {message: req.flash('signupMessage'), token:req.params.token}); //Render views/signup.ejs w/ flash message
   });
   app.post('/api/signup', passport.authenticate('local-signup'),(req,res) => {
-    if(req.body.token.length > 0){
+    if(req.body.token.length){
       res.redirect('/api/joinLeague/'+req.body.token);
     }
     res.redirect('/')
@@ -244,12 +248,9 @@ module.exports = (app, passport) => {
 //======================================================================================================================================
   app.post('/api/sendLeagueInvite', (req, res)=>{
     let leagueId = req.body.leagueId;
-    console.log('leagueId: ', leagueId)
     YearModel.getCurrentYearId(leagueId).then(year => {
-      console.log('YEAR: ', year)
-      console.log('UTF-8: ', JSON.stringify({leagueId:leagueId, yearId:year.id}))
       let link = 'http://localhost:4000/api/joinLeague/' + base64.encode(JSON.stringify({leagueId:leagueId, yearId:year.id}))
-      MAILGUN.sendMail('jerry.shanahan@gmail.com', link);
+      MAILGUN.sendMail(req.body.email, link);
     })
     res.end();
   });
@@ -257,11 +258,8 @@ module.exports = (app, passport) => {
     if(!req.isAuthenticated()){
       res.redirect('/api/login/'+req.params.token)
     } else {
-      console.log('JOIN LEAGUE TOKEN: ', req.params.token);
       let info = base64.decode(req.params.token)
       info = JSON.parse(info);
-      console.log('INFO OBJECT: ', info);
-      console.log('JOIN USER: ', passport.user)
       LeagueModel.joinLeague(info.leagueId, info.yearId, passport.user);
       res.redirect('/')
     }

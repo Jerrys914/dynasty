@@ -14,7 +14,7 @@ class MyLeagues extends Component {
     this.props.getLeagues();
   }
 
-  listLeagues(){``
+  listLeagues(){
     return this.props.myLeagues.map(league => {
       if(league.name === 'No Leagues Yet') {
         return (

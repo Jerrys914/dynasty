@@ -67,7 +67,6 @@ const joinLeague = (leagueId, yearId, user) => {
     userID: user.id,
     yearID: yearId
   }).then(member => {
-    console.log('member: ', member)
     if(member.length === 0){
       return knex('Members').insert({name: user.username+'\'s franchise', yearID: yearId, userID: user.id, isComish:false})
       .then(member => {

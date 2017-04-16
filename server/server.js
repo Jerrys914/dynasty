@@ -8,6 +8,7 @@ const session = require('express-session');
 const passport = require('passport');
 const flash = require('connect-flash');
 const app = express();
+const open = require('open');
 
 app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({

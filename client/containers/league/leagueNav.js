@@ -8,8 +8,9 @@ class LEAGUENAV extends Component {
   constructor(props){
     super(props);
     this.state = {
-      showInviteForm: false
+      inviteEmail: ''
     }
+    this.handleEmailInput = this.handleEmailInput.bind(this)
   }
   isComish(){
     let isComish = false;
@@ -22,6 +23,11 @@ class LEAGUENAV extends Component {
     })
     return isComish;
   }
+
+  handleEmailInput(event){
+    this.setState({inviteEmail: event.target.value})
+  }
+
   displayNav(){
     if(this.isComish()){
       return (
@@ -32,7 +38,12 @@ class LEAGUENAV extends Component {
           <Link to='/NFL'>Football</Link><span>__</span>
           <Link to='/NBA'>Basketball</Link><span>__</span>
           <Link to='/MLB'>Baseball</Link>
-          <a onClick={()=>{this.props.sendLeagueInvite(this.props.leagueInfo.id)}}>Send Invite</a>
+          <span style={{float:'right'}}>
+            <lable>
+              <button onClick={()=>{ if(this.state.inviteEmail.length>0){this.props.sendLeagueInvite(this.props.leagueInfo.id, this.state.inviteEmail); this.setState({inviteEmail:''})}}}>Send Invite</button>
+            </lable><br />
+            <input value={this.state.inviteEmail} onChange={this.handleEmailInput} />
+          </span>
         </div>
       )
     }
