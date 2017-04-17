@@ -37,7 +37,9 @@ class LEAGUENAV extends Component {
           <Link to='/myTeams'>My Teams</Link><span>__</span>
           <Link to='/NFL'>Football</Link><span>__</span>
           <Link to='/NBA'>Basketball</Link><span>__</span>
-          <Link to='/MLB'>Baseball</Link>
+          <Link to='/MLB'>Baseball</Link><span>__</span>
+          <a href="/api/getDraftRoom">Draft Room</a>
+          {/*<a href={"/api/getDraftRoom/"+this.props.leagueInfo.name}>Draft Room</a>*/}
           <span style={{float:'right'}}>
             <lable>
               <button onClick={()=>{ if(this.state.inviteEmail.length>0){this.props.sendLeagueInvite(this.props.leagueInfo.id, this.state.inviteEmail); this.setState({inviteEmail:''})}}}>Send Invite</button>
@@ -54,7 +56,8 @@ class LEAGUENAV extends Component {
         <Link to='/myTeams'>My Teams</Link><span>__</span>
         <Link to='/NFL'>Football</Link><span>__</span>
         <Link to='/NBA'>Basketball</Link><span>__</span>
-        <Link to='/MLB'>Baseball</Link>
+        <Link to='/MLB'>Baseball</Link><span>__</span>
+        <a href="/api/getDraftRoom">Draft Room</a>
       </div>
     )
   }

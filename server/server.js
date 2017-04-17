@@ -8,7 +8,8 @@ const session = require('express-session');
 const passport = require('passport');
 const flash = require('connect-flash');
 const app = express();
-const open = require('open');
+const http = require('http').Server(app);
+let io = require('socket.io')(http);
 
 app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({
@@ -27,8 +28,10 @@ app.use(passport.session()); //Equevelent to app.use(passport.authenticate('sess
 app.use(flash()); //Attach flash function to requests
 require('./passport/config.js')(passport);
 require('./routes.js')(app, passport);
+require('./socket.io/config.js')(io, passport);
+
 let port = process.env.PORT || 4000;
-app.listen(port,(err) => {
+http.listen(port,(err) => {
   console.log("Listening on port " + port);
 });
 

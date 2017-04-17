@@ -10,6 +10,7 @@ import MyTeams from './league/myTeams.js';
 import LeagueMembers from './league/leagueMembers.js';
 import LeagueInfo from './league/leagueInfo.js';
 import UserInfo from './user/userInfo.js';
+import DraftRoomMembers from './league/draftRoom.js';
 
 let rootReducer = combineReducers({
   NBASeasonStats,
@@ -22,7 +23,8 @@ let rootReducer = combineReducers({
   MyTeams,
   LeagueMembers,
   LeagueInfo,
-  UserInfo
+  UserInfo,
+  DraftRoomMembers
 });
 
 export default rootReducer;

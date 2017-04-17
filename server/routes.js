@@ -7,6 +7,7 @@ let MemberModel = require('./models/memberModel.js');
 let TeamModel = require('./models/teamModel.js');
 let YearModel = require('./models/yearModel.js');
 let MAILGUN = require('./mailgun/config.js');
+const open = require('open');
 let authorization = base64.encode(process.env.USERNAME+':'+process.env.PASSWORD);
 
 const isLoggedIn = (req, res, next) => {
@@ -246,7 +247,7 @@ module.exports = (app, passport) => {
     res.send(passport.user);
   })
 //======================================================================================================================================
-  app.post('/api/sendLeagueInvite', (req, res)=>{
+  app.post('/api/sendLeagueInvite', isLoggedIn, (req, res)=>{
     let leagueId = req.body.leagueId;
     YearModel.getCurrentYearId(leagueId).then(year => {
       let link = 'http://localhost:4000/api/joinLeague/' + base64.encode(JSON.stringify({leagueId:leagueId, yearId:year.id}))
@@ -254,7 +255,7 @@ module.exports = (app, passport) => {
     })
     res.end();
   });
-  app.get('/api/joinLeague/:token', (req,res) => {
+  app.get('/api/joinLeague/:token', isLoggedIn, (req,res) => {
     if(!req.isAuthenticated()){
       res.redirect('/api/login/'+req.params.token)
     } else {
@@ -263,5 +264,12 @@ module.exports = (app, passport) => {
       LeagueModel.joinLeague(info.leagueId, info.yearId, passport.user);
       res.redirect('/')
     }
+  })
+  app.get('/api/renderDraft', isLoggedIn, (req,res) => {
+    res.sendFile(path.join(__dirname, '/../client/draftRoom.html'))
+  })
+  app.get('/api/getDraftRoom', isLoggedIn, (req, res) => {
+    open('http://localhost:4000/#/DraftRoom');
+    res.redirect('/')
   })
 };
