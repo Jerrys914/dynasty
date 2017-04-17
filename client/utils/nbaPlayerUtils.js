@@ -8,7 +8,10 @@ let pointsConverter = {
   Tov: -1
 };
 
-const pickOutPlayerInfo = (playerObj) => {
+const getPlayerInfo = playerObj => {
+  if(playerObj.player.Position === 'G'){
+    playerObj.player.Position = 'PG,SG'
+  }
   return {
     fullName: playerObj.player.FirstName + ' ' + playerObj.player.LastName,
     number: playerObj.player.JerseyNumber,
@@ -24,7 +27,7 @@ const pickOutPlayerInfo = (playerObj) => {
   }
 };
 
-const totalPointsGenerator = (player) => {
+const totalPointsGenerator = player => {
   let totalPoints = 0;
   for(let prop in player) {
     if(prop !== 'fullName' && prop !== 'number' && prop !== 'position' && prop !== 'teamAbv'){
@@ -34,7 +37,7 @@ const totalPointsGenerator = (player) => {
   return totalPoints;
 }
 
-const applyBonus = (player) => {
+const applyBonus = player => {
   let doubles = 0;
   for(let prop in player) {
     if(prop !== 'fullName' && prop !== 'number' && prop !== 'position' && prop !== 'teamAbv' && prop !== '3pt' && prop !== 'Tov') {
@@ -51,15 +54,112 @@ const applyBonus = (player) => {
   return 0;
 };
 
-const sortByPoints = (playersArr) => {
-  return playersArr.sort((playerA,playerB)=>{
+const sortByTotalPoints = playersArr => {
+  let sortedArr = playersArr.sort((playerA,playerB) => {
     return playerB.totalPoints - playerA.totalPoints;
-  })
+  });
+  return {
+    sortedBy: 'Points',
+    sorted: sortedArr
+  }
 };
 
+const sortByName = playersArr => {
+  let sortedArr = playersArr.sort((playerA,playerB) => {
+    let nameA = playerA.fullName.split(' ')[1].toUpperCase(); // ignore upper and lowercase
+    let nameB = playerB.fullName.split(' ')[1].toUpperCase(); // ignore upper and lowercase
+    if (nameA < nameB) {
+      return -1;
+    }
+    if (nameA > nameB) {
+      return 1;
+    }
+    return 0;
+  });
+  return {
+    sortedBy: 'Name',
+    sorted: sortedArr
+  }
+};
+const sortBy3pt = playersArr => {
+  let sortedArr = playersArr.sort((playerA,playerB) => {
+    return playerB['3pt'] - playerA['3pt'];
+  });
+  return {
+    sortedBy: 'Points',
+    sorted: sortedArr
+  }
+};
+const sortByPoints = playersArr => {
+  let sortedArr = playersArr.sort((playerA,playerB) => {
+    return playerB.Pts - playerA.Pts;
+  });
+  return {
+    sortedBy: 'Points',
+    sorted: sortedArr
+  }
+};
+const sortByAssists = playersArr => {
+  let sortedArr = playersArr.sort((playerA,playerB) => {
+    return playerB.Ast - playerA.Ast;
+  });
+  return {
+    sortedBy: 'Points',
+    sorted: sortedArr
+  }
+};
+const sortByRebounds = playersArr => {
+  let sortedArr = playersArr.sort((playerA,playerB) => {
+    return playerB.Reb - playerA.Reb;
+  });
+  return {
+    sortedBy: 'Points',
+    sorted: sortedArr
+  }
+};
+const sortByBlocks = playersArr => {
+  let sortedArr = playersArr.sort((playerA,playerB) => {
+    return playerB.Blk - playerA.Blk;
+  });
+  return {
+    sortedBy: 'Points',
+    sorted: sortedArr
+  }
+};
+const sortBySteals = playersArr => {
+  let sortedArr = playersArr.sort((playerA,playerB) => {
+    return playerB.Stl - playerA.Stl;
+  });
+  return {
+    sortedBy: 'Points',
+    sorted: sortedArr
+  }
+};
+const sortByTurnovers = playersArr => {
+  let sortedArr = playersArr.sort((playerA,playerB) => {
+    return playerB.Tov - playerA.Tov;
+  });
+  return {
+    sortedBy: 'Points',
+    sorted: sortedArr
+  }
+};
+
+const sortBy = {
+  name: sortByName,
+  '3pt': sortBy3pt,
+  points: sortByPoints,
+  assists: sortByAssists,
+  rebounds: sortByRebounds,
+  blocks: sortByBlocks,
+  steals: sortBySteals,
+  turnovers: sortByTurnovers,
+  totalPoints: sortByTotalPoints
+}
+
 export default {
-  getPlayerInfo: pickOutPlayerInfo,
-  applyBonus: applyBonus,
-  totalPointsGenerator: totalPointsGenerator,
-  sortByPoints: sortByPoints
+  getPlayerInfo,
+  applyBonus,
+  totalPointsGenerator,
+  sortBy
 };

@@ -5,6 +5,9 @@ let request = require('request');
 let LeagueModel = require('./models/leagueModel.js');
 let MemberModel = require('./models/memberModel.js');
 let TeamModel = require('./models/teamModel.js');
+let YearModel = require('./models/yearModel.js');
+let MAILGUN = require('./mailgun/config.js');
+const open = require('open');
 let authorization = base64.encode(process.env.USERNAME+':'+process.env.PASSWORD);
 
 const isLoggedIn = (req, res, next) => {
@@ -22,26 +25,38 @@ module.exports = (app, passport) => {
     app.use(express.static(path.join(__dirname, '/../client')));
     res.sendFile(path.join(__dirname, '/../client/index.html'))
   });
-
+  
   app.get('/api/login',(req, res) => {
-    res.render('login.ejs', {message: req.flash('loginMessage')}); //Render views/login.ejs w/ flash message
+    req.session.returnTo = req.url
+    res.render('login.ejs', {message: req.flash('loginMessage'), token:req.params.token}); //Render views/login.ejs w/ flash message
   });
-  app.post('/api/login',passport.authenticate('local-login',{
-    successRedirect: '/', //Redirect to '/' route
-    failureRedirect: '/api/login', //Redirect back to login page on failure
-    failureFlash : true //Allow flash messages
-  }));
+  app.get('/api/login/:token',(req, res) => {
+    req.session.returnTo = req.url
+    res.render('login.ejs', {message: req.flash('loginMessage'), token:req.params.token}); //Render views/login.ejs w/ flash message
+  });
+  app.post('/api/login', passport.authenticate('local-login'),(req,res) => {
+    if(req.body.token){
+      res.redirect('/api/joinLeague/'+req.body.token);
+    }
+    res.redirect('/')
+  });
 
   app.get('/api/signup',(req, res) => {
-    res.render('signup.ejs', {message: req.flash('signupMessage')}); //Render views/signup.ejs w/ flash message
+    req.session.returnTo = req.url
+    res.render('signup.ejs', {message: req.flash('signupMessage'), token:req.params.token}); //Render views/signup.ejs w/ flash message
   });
-  app.post('/api/signup', passport.authenticate('local-signup', { 
-    successRedirect: '/', //Redirect to '/' route
-    failureRedirect: '/api/signup', //Redirect back to signup page on failure
-    failureFlash: true //Allow flash messages
-  }));
+  app.get('/api/signup/:token',(req, res) => {
+    req.session.returnTo = req.url
+    res.render('signup.ejs', {message: req.flash('signupMessage'), token:req.params.token}); //Render views/signup.ejs w/ flash message
+  });
+  app.post('/api/signup', passport.authenticate('local-signup'),(req,res) => {
+    if(req.body.token.length){
+      res.redirect('/api/joinLeague/'+req.body.token);
+    }
+    res.redirect('/')
+  });
 
-  app.get('/logout', (req, res) => {
+  app.get('/api/logout', isLoggedIn, (req, res) => {
     req.logout(); //Delete session for user
     res.redirect('/'); //Redirect to '/' which will redirect to /api/login
   });
@@ -58,7 +73,11 @@ module.exports = (app, passport) => {
       }
     };
     const callback = (err, response, data) => {
-      res.send(JSON.parse(data))
+      if(data){
+        res.send(JSON.parse(data))
+      } else {
+        res.send(data)
+      }
     };
     request(options, callback);
   });
@@ -68,7 +87,13 @@ module.exports = (app, passport) => {
     let year = d.getFullYear() + '';
     let month = ((d.getMonth() + 1) <9) ? '0' + (d.getMonth() + 1) : (d.getMonth() + 1) + '';
     let day = d.getDate() < 10 ? '0'+ d.getDate() : d.getDate() + '';
-    let date = year + month + day;
+    let date;
+    let hour = d.getHours();
+    if(hour < 5) {
+      date = year + month + (day-1);
+    } else {
+      date = year + month + (day);
+    }
 
     let options = {
       url: 'https://www.mysportsfeeds.com/api/feed/pull/nba/2016-2017-regular/daily_player_stats.json?fordate=' + date,
@@ -89,14 +114,21 @@ module.exports = (app, passport) => {
 
   app.get('/api/nfl/playerStatsYTD', isLoggedIn, (req, res) => {
     let options = {
-      url: 'https://www.mysportsfeeds.com/api/feed/pull/nba/2016-2017-regular/cumulative_player_stats.json',
+      url: 'https://www.mysportsfeeds.com/api/feed/pull/nfl/2016-regular/cumulative_player_stats.json',
       headers: {
        'User-Agent': 'request',
         'Authorization': 'Basic ' + authorization
       }
     };
     const callback = (err, response, data) => {
-      res.send(JSON.parse(data))
+      if(err) {
+        console.error(err)
+      }
+      if(data){
+        res.send(JSON.parse(data))
+      } else {
+        res.send(data)
+      }
     };
     request(options, callback);
   });
@@ -109,7 +141,54 @@ module.exports = (app, passport) => {
     let date = year + month + day;
 
     let options = {
-      url: 'https://www.mysportsfeeds.com/api/feed/pull/nba/2016-2017-regular/daily_player_stats.json?fordate=' + date,
+      url: 'https://www.mysportsfeeds.com/api/feed/pull/nfl/2016-regular/daily_player_stats.json?fordate=' + '20160911'/*date*/,
+      headers: {
+       'User-Agent': 'request',
+        'Authorization': 'Basic ' + authorization
+      }
+    };
+    const callback = (err, response, data) => {
+      if(data){
+        res.send(JSON.parse(data))
+      } else {
+        res.send(data)
+      }
+    };
+    request(options,callback);
+  });
+
+  app.get('/api/mlb/playerStatsYTD', isLoggedIn, (req, res) => {
+    let options = {
+      url: 'https://www.mysportsfeeds.com/api/feed/pull/mlb/latest/cumulative_player_stats.json',
+      headers: {
+       'User-Agent': 'request',
+        'Authorization': 'Basic ' + authorization
+      }
+    };
+    const callback = (err, response, data) => {
+      if(data){
+        res.send(JSON.parse(data))
+      } else {
+        res.send(data)
+      }
+    };
+    request(options, callback);
+  });
+  app.get('/api/mlb/dailyStats', isLoggedIn, (req,res) => {
+    let d = new Date();
+    let year = d.getFullYear() + '';
+    let month = ((d.getMonth() + 1) <9) ? '0' + (d.getMonth() + 1) : (d.getMonth() + 1) + '';
+    let day = d.getDate() < 10 ? '0'+ d.getDate() : d.getDate() + '';
+    let date;
+    let hour = d.getHours();
+    if(hour < 5) {
+      date = year + month + (day-1);
+    } else {
+      date = year + month + (day);
+    }
+
+    let options = {
+      url: 'https://www.mysportsfeeds.com/api/feed/pull/mlb/2017-regular/daily_player_stats.json?fordate=' + date,
       headers: {
        'User-Agent': 'request',
         'Authorization': 'Basic ' + authorization
@@ -152,5 +231,45 @@ module.exports = (app, passport) => {
       })
     })
   })
+
+  app.get('/api/getLeagueMembers/:leagueInfo', isLoggedIn, (req,res) => {
+    let membersArr = MemberModel.getLeagueMembers(passport.user.id, req.params.leagueInfo);
+    Promise.all([membersArr]).then(members => {
+      members = members[0];
+      res.send(members);
+    });
+  });
 //======================================================================================================================================
+
+//User Routes
+//======================================================================================================================================
+  app.get('/api/getUserInfo', isLoggedIn, (req, res) => {
+    res.send(passport.user);
+  })
+//======================================================================================================================================
+  app.post('/api/sendLeagueInvite', isLoggedIn, (req, res)=>{
+    let leagueId = req.body.leagueId;
+    YearModel.getCurrentYearId(leagueId).then(year => {
+      let link = 'http://localhost:4000/api/joinLeague/' + base64.encode(JSON.stringify({leagueId:leagueId, yearId:year.id}))
+      MAILGUN.sendMail(req.body.email, link);
+    })
+    res.end();
+  });
+  app.get('/api/joinLeague/:token', isLoggedIn, (req,res) => {
+    if(!req.isAuthenticated()){
+      res.redirect('/api/login/'+req.params.token)
+    } else {
+      let info = base64.decode(req.params.token)
+      info = JSON.parse(info);
+      LeagueModel.joinLeague(info.leagueId, info.yearId, passport.user);
+      res.redirect('/')
+    }
+  })
+  app.get('/api/renderDraft', isLoggedIn, (req,res) => {
+    res.sendFile(path.join(__dirname, '/../client/draftRoom.html'))
+  })
+  app.get('/api/getDraftRoom', isLoggedIn, (req, res) => {
+    open('http://localhost:4000/#/DraftRoom');
+    res.redirect('/')
+  })
 };

@@ -1,20 +1,30 @@
 import { combineReducers } from 'redux';
 import NBASeasonStats from './nba/playerStatsYTD.js';
 import NBADailyStats from './nba/dailyStats.js';
-import NFLSeasonStats from './nba/playerStatsYTD.js';
-import NFLDailyStats from './nba/dailyStats.js';
+import NFLSeasonStats from './nfl/playerStatsYTD.js';
+import NFLDailyStats from './nfl/dailyStats.js';
+import MLBSeasonStats from './mlb/playerStatsYTD.js';
+import MLBDailyStats from './mlb/dailyStats.js';
 import MyLeagues from './league/myLeagues.js';
 import MyTeams from './league/myTeams.js';
-import LeagueName from './league/leagueName.js';
+import LeagueMembers from './league/leagueMembers.js';
+import LeagueInfo from './league/leagueInfo.js';
+import UserInfo from './user/userInfo.js';
+import DraftRoomMembers from './league/draftRoom.js';
 
 let rootReducer = combineReducers({
-  nbaPlayerStatsYTD: NBASeasonStats,
-  nbaStatsForDay: NBADailyStats,
-  nflPlayerStatsYTD: NFLSeasonStats,
-  nflStatsForDay: NFLDailyStats,
+  NBASeasonStats,
+  NBADailyStats,
+  NFLSeasonStats,
+  NFLDailyStats,
+  MLBSeasonStats,
+  MLBDailyStats,
   MyLeagues,
   MyTeams,
-  LeagueName
+  LeagueMembers,
+  LeagueInfo,
+  UserInfo,
+  DraftRoomMembers
 });
 
 export default rootReducer;

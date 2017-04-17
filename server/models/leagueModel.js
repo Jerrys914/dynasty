@@ -14,7 +14,7 @@ const getLeaguesByUserId = id => {
     userID: id
   }).then(yearIds => {
     if(yearIds.length === 0){
-      return [{id:'No Leagues',name: 'No Leagues Yet'}];  // to conform to format expected in container.
+      return [{id:'No Leagues', name: 'No Leagues Yet'}];  // to conform to format expected in container.
     }
     else {
       flag = true;
@@ -52,9 +52,8 @@ const createNewLeague = (name, user) => {
   .then(league => {
     return knex('Years').insert({year:year, leagueID:league[0]})
     .then(year => {
-      return knex('Members').insert({yearID: year[0], userID: user.id, isComish:true})
+      return knex('Members').insert({name: user.username+'\'s franchise', yearID: year[0], userID: user.id, isComish:true})
       .then(member => {
-        console.log('MEMBER: ', member)
         TeamModel.createTeam(user.username, 'football', member[0])
         TeamModel.createTeam(user.username, 'basketball', member[0])
         TeamModel.createTeam(user.username, 'baseball', member[0])
@@ -63,7 +62,24 @@ const createNewLeague = (name, user) => {
   })
 };
 
+const joinLeague = (leagueId, yearId, user) => {
+  return knex('Members').where({
+    userID: user.id,
+    yearID: yearId
+  }).then(member => {
+    if(member.length === 0){
+      return knex('Members').insert({name: user.username+'\'s franchise', yearID: yearId, userID: user.id, isComish:false})
+      .then(member => {
+        TeamModel.createTeam(user.username, 'football', member[0])
+        TeamModel.createTeam(user.username, 'basketball', member[0])
+        TeamModel.createTeam(user.username, 'baseball', member[0])
+      })    
+    }
+  })
+}
+
 module.exports = {
   getLeaguesById: getLeaguesByUserId,
-  createNewLeague
+  createNewLeague,
+  joinLeague
 }

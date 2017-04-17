@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import Flexbox from 'flexbox-react';
 import getTeams from '../../actions/league/getTeams.js';
 
 class MyTeams extends Component {
@@ -12,24 +13,41 @@ class MyTeams extends Component {
     this.props.getTeams();    
   }
 
+  displayRoster(){
+    return (  
+      <tr>
+        <td>
+          display roster
+        </td>
+      </tr>
+    )
+  }
+
   displayTeams(){
     return this.props.myTeams.map(team => {
       return (
-        <div key={team.id}>
-          {team.name}
-        </div>
+        <table key={team.id}>
+          <tbody>
+            <tr>
+              <th>
+                {team.name}
+              </th>
+            </tr>
+            {this.displayRoster()}
+          </tbody>
+        </table>
       )
     })
   }
 
   render(){
     return (
-      <div>
-      {this.displayTeams()}
-      </div>
+      <Flexbox>
+        {this.displayTeams()}
+      </Flexbox>
     )
   }
-}
+};
 
 const mapStateToProps = state => {
   return {
@@ -37,8 +55,4 @@ const mapStateToProps = state => {
   }
 };
 
-const mapDispatchToProps = dispatch => {
-  return bindActionCreators({ getTeams }, dispatch);
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(MyTeams);
+export default connect(mapStateToProps, { getTeams })(MyTeams);

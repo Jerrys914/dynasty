@@ -7,7 +7,29 @@ const getMemberId = userId => {
     return id
   })
 };
+const getYearByLeagueId = leagueId => {
+  return knex('Years').where({
+    leagueID: leagueId
+  }).then(year => {
+    return year
+  })
+};
+
+const getLeagueMembers = (userId, leagueInfo) => {
+  leagueInfo = JSON.parse(leagueInfo);
+  return getMemberId(userId).then(memberId => {
+    return getYearByLeagueId(leagueInfo.id).then(year=> {
+      year = year[year.length-1];
+      return knex('Members').where({
+        yearID: year.id
+      }).then(members => {
+        return members
+      })
+    })
+  });
+};
 
 module.exports ={
-  getMemberId
+  getMemberId,
+  getLeagueMembers
 };

@@ -3,12 +3,11 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Link } from 'react-router';
 import getLeagues from '../../actions/league/getLeagues.js';
-import setLeague from '../../actions/league/setLeagueName.js';
+import setLeagueInfo from '../../actions/league/setLeagueInfo.js';
 
 class MyLeagues extends Component {
   constructor(props) {
     super(props);
-    // this.props.getLeagues();
   }
 
   componentWillMount(){
@@ -26,7 +25,7 @@ class MyLeagues extends Component {
       }
       return (
         <div key={league.id}>
-          <Link to='/myTeams' onClick={()=>{this.props.setLeague(league.name)}}>{league.name}</Link>
+          <Link to='/leagueStandings' onClick={()=>{this.props.setLeagueInfo(league)}}>{league.name}</Link>
         </div>
       )
     })
@@ -49,9 +48,4 @@ const mapStateToProps = (state) => {
   }
 };
 
-const mapDispatchToProps = (dispatch) => {
-  return bindActionCreators({ getLeagues, setLeague },dispatch);
-};
-
-
-export default connect(mapStateToProps, mapDispatchToProps)(MyLeagues);
+export default connect(mapStateToProps, { getLeagues, setLeagueInfo })(MyLeagues);

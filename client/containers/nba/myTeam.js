@@ -15,17 +15,10 @@ class NBATeam extends Component {
     }
   }
 
-  componentWillMount(props){
-  }
-
-  componentWillReceiveProps(nextProps){
-    console.log('NextProps: ', nextProps)
-  }
-
   render() {
     return(
       <div>
-      My NBA Team
+        My NBA Team
       </div>
     )
   }
@@ -37,8 +30,4 @@ const mapStateToProps = (state) => {
   }
 };
 
-const mapDispatchToProps = (dispatch) => {
-  return bindActionCreators({getDailyStats}, dispatch);
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(NBATeam);
+export default connect(mapStateToProps, { getDailyStats })(NBATeam);
