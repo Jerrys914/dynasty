@@ -22,7 +22,6 @@ class DraftRoom extends Component {
     window.onbeforeunload = () => {
       socket.emit('IO_CLIENT_LEAVE_ROOM',this.props.leagueInfo.name);
     }
-
   }
 
   componentDidMount(){
@@ -39,7 +38,6 @@ class DraftRoom extends Component {
   }
 
   render(){
-
     return (
       <div>
         <h1>{this.props.leagueInfo.name} DRAFT ROOM</h1>
