@@ -52,8 +52,9 @@ module.exports = (app, passport) => {
   app.post('/api/signup', passport.authenticate('local-signup'),(req,res) => {
     if(req.body.token.length){
       res.redirect('/api/joinLeague/'+req.body.token);
+    } else {
+      res.redirect('/')
     }
-    res.redirect('/')
   });
 
   app.get('/api/logout', isLoggedIn, (req, res) => {
