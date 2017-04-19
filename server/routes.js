@@ -255,7 +255,7 @@ module.exports = (app, passport) => {
     })
     res.end();
   });
-  app.get('/api/joinLeague/:token', isLoggedIn, (req,res) => {
+  app.get('/api/joinLeague/:token', (req,res) => {
     if(!req.isAuthenticated()){
       res.redirect('/api/login/'+req.params.token)
     } else {
