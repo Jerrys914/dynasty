@@ -250,7 +250,7 @@ module.exports = (app, passport) => {
   app.post('/api/sendLeagueInvite', isLoggedIn, (req, res)=>{
     let leagueId = req.body.leagueId;
     YearModel.getCurrentYearId(leagueId).then(year => {
-      let link = 'http://localhost:4000/api/joinLeague/' + base64.encode(JSON.stringify({leagueId:leagueId, yearId:year.id}))
+      let link = 'dynasty-kings.herokuapp.com/api/joinLeague/' + base64.encode(JSON.stringify({leagueId:leagueId, yearId:year.id}))
       MAILGUN.sendMail(req.body.email, link);
     })
     res.end();
