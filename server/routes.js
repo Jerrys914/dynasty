@@ -251,7 +251,7 @@ module.exports = (app, passport) => {
   app.post('/api/sendLeagueInvite', isLoggedIn, (req, res)=>{
     let leagueId = req.body.leagueId;
     YearModel.getCurrentYearId(leagueId).then(year => {
-      let link = 'dynasty-kings.herokuapp.com/api/joinLeague/' + base64.encode(JSON.stringify({leagueId:leagueId, yearId:year.id}))
+      let link = 'http://dynasty-kings.herokuapp.com/api/joinLeague/' + base64.encode(JSON.stringify({leagueId:leagueId, yearId:year.id}))
       MAILGUN.sendMail(req.body.email, link);
     })
     res.end();
@@ -271,7 +271,7 @@ module.exports = (app, passport) => {
   })
   app.get('/api/getDraftRoom', isLoggedIn, (req, res) => {
     // res.redirect('/#/DraftRoom');
-    open('http://localhost:4000/#/DraftRoom','');
+    open('http://dynasty-kings.herokuapp.com/#/DraftRoom','');
     res.redirect('/')
   })
 };
