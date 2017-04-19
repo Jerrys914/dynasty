@@ -27,10 +27,8 @@ const createStoreWithMiddleware = createStore(reducers, composeWithDevTools(
   persistState()
   // other store enhancers if any
 ));
-import setUpSocket from './socket'
 
 // [at the very end of the file]
-setUpSocket(createStoreWithMiddleware)
 
 ReactDOM.render(
   <Provider store={createStoreWithMiddleware}>

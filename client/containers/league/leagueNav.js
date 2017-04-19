@@ -29,7 +29,7 @@ class LEAGUENAV extends Component {
   }
 
   displayNav(){
-    if(this.isComish()){
+    if(this.isComish() && this.props.leagueMembers.length < 12){
       return (
         <div>
           <h1>{this.props.leagueInfo.name}</h1>
@@ -38,7 +38,7 @@ class LEAGUENAV extends Component {
           <Link to='/NFL'>Football</Link><span>__</span>
           <Link to='/NBA'>Basketball</Link><span>__</span>
           <Link to='/MLB'>Baseball</Link><span>__</span>
-          <a href="/api/getDraftRoom">Draft Room</a>
+          <a href={"/api/getDraftRoom"}>Draft Room</a>
           {/*<a href={"/api/getDraftRoom/"+this.props.leagueInfo.name}>Draft Room</a>*/}
           <span style={{float:'right'}}>
             <lable>

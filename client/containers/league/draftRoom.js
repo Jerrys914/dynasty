@@ -2,6 +2,7 @@ import React, { Component} from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Link } from 'react-router';
+import setUpSocket from '../../socket'
 import socketIOClient from 'socket.io-client'
 const socket = socketIOClient(window.location.host)
 
@@ -18,20 +19,21 @@ class DraftRoom extends Component {
       console.log('MEMBERS: ', members)
       this.setState({activeDraftMembers: members})
     })
+    window.onbeforeunload = () => {
+      socket.emit('IO_CLIENT_LEAVE_ROOM',this.props.leagueInfo.name);
+    }
+
   }
 
-  componentWillMount(){
+  componentDidMount(){
+    setUpSocket()
     socket.emit('IO_CLIENT_JOIN_ROOM',this.props.leagueInfo.name);
-  }
-
-  componentWillUnmount(){
-    socket.emit('IO_CLIENT_LEAVE_ROOM',this.props.leagueInfo.name);
   }
 
   displayMembers(){
     return this.state.activeDraftMembers.map(member => {
       return(
-        <li>{member}</li>
+        <li key={member}>{member}</li>
       )
     })
   }
@@ -40,7 +42,7 @@ class DraftRoom extends Component {
 
     return (
       <div>
-        <h1>DRAFT ROOM</h1>
+        <h1>{this.props.leagueInfo.name} DRAFT ROOM</h1>
         <button onClick={()=>{}}>Enter Draft</button>
         <ul>
           {this.displayMembers()}

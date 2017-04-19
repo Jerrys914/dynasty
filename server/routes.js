@@ -269,7 +269,8 @@ module.exports = (app, passport) => {
     res.sendFile(path.join(__dirname, '/../client/draftRoom.html'))
   })
   app.get('/api/getDraftRoom', isLoggedIn, (req, res) => {
-    open('http://localhost:4000/#/DraftRoom');
+    // res.redirect('/#/DraftRoom');
+    open('http://localhost:4000/#/DraftRoom','');
     res.redirect('/')
   })
 };

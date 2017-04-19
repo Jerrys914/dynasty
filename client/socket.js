@@ -1,7 +1,7 @@
 import socketIOClient from 'socket.io-client'
 const socket = socketIOClient(window.location.host)
 
-const setUpSocket = (store: Object) => {
+const setUpSocket = () => {
   socket.on('connect', () => {
     console.log('[socket.io] Connected.')
     socket.emit('IO_CLIENT_HELLO', 'Hello!')
