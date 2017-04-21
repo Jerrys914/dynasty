@@ -28,6 +28,9 @@ class DraftRoom extends Component {
     setUpSocket()
     socket.emit('IO_CLIENT_JOIN_ROOM',this.props.leagueInfo.name);
   }
+  componentWillUnmount(){
+    socket.emit('IO_CLIENT_LEAVE_ROOM',this.props.leagueInfo.name);
+  }
 
   displayMembers(){
     return this.state.activeDraftMembers.map(member => {
