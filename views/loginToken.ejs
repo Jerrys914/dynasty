@@ -14,7 +14,7 @@
       <% if(message.length > 0){ %>
         <div class='alert alert-danger'><%= message %></div>
       <% } %>
-      <form action='/api/login' method='post'>
+      <form action='/api/loginToken/<%= token %>' method='post'>
         <div class='form-group'>
           <label>Username</label>
           <input type='text' class='form-control' name='username'>
@@ -22,11 +22,12 @@
         <div class='form-group'>
           <label>Password</label>
           <input type='password' class='form-control' name='password'>
+          <input type='hidden' name='token' value='<%= token %>'>
         </div>
         <button type='submit' class='btn btn-danger btn-lg'>Login</button>
       </form>
       <hr>
-        <p>Need an account? <a href='/api/signup'>Signup</a></p>
+        <p>Need an account? <a href='/api/signup/<%= token %>'>Signup</a></p>
     </div>
   </div>
 </body>

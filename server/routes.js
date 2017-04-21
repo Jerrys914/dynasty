@@ -16,7 +16,6 @@ const isLoggedIn = (req, res, next) => {
   }
   res.redirect('/api/login'); //Redirect to /api/login if no user session 
 };
-
 module.exports = (app, passport) => {
 
 // Login/Signup Routes
@@ -27,18 +26,24 @@ module.exports = (app, passport) => {
   });
   
   app.get('/api/login',(req, res) => {
-    req.session.returnTo = req.url
+    passport.returnTo = req.url
     res.render('login.ejs', {message: req.flash('loginMessage'), token:req.params.token}); //Render views/login.ejs w/ flash message
   });
   app.get('/api/login/:token',(req, res) => {
-    req.session.returnTo = req.url
-    res.render('login.ejs', {message: req.flash('loginMessage'), token:req.params.token}); //Render views/login.ejs w/ flash message
+    token = req.params.token
+    res.render('loginToken.ejs', {message: req.flash('loginMessage'), token:req.params.token}); //Render views/login.ejs w/ flash message
   });
-  app.post('/api/login', passport.authenticate('local-login'),(req,res) => {
-    if(req.body.token){
-      res.redirect('/api/joinLeague/'+req.body.token);
-    }
-    res.redirect('/')
+  app.post('/api/login', passport.authenticate('local-login', {
+    successRedirect: '/',
+    failureRedirect: '/api/login',
+    failureFlash: true
+  }));
+  app.post('/api/loginToken/:token', function(req, ...args) {
+    passport.authenticate('local-login', {
+      successRedirect: '/api/joinLeague/'+req.params.token,
+      failureRedirect: '/api/login/'+req.params.token,
+      failureFlash: true
+    })(req, ...args);
   });
 
   app.get('/api/signup',(req, res) => {
@@ -46,15 +51,20 @@ module.exports = (app, passport) => {
     res.render('signup.ejs', {message: req.flash('signupMessage'), token:req.params.token}); //Render views/signup.ejs w/ flash message
   });
   app.get('/api/signup/:token',(req, res) => {
-    req.session.returnTo = req.url
-    res.render('signup.ejs', {message: req.flash('signupMessage'), token:req.params.token}); //Render views/signup.ejs w/ flash message
+    token = req.params.token
+    res.render('signupToken.ejs', {message: req.flash('signupMessage'), token:req.params.token}); //Render views/signup.ejs w/ flash message
   });
-  app.post('/api/signup', passport.authenticate('local-signup'),(req,res) => {
-    if(req.body.token.length){
-      res.redirect('/api/joinLeague/'+req.body.token);
-    } else {
-      res.redirect('/')
-    }
+  app.post('/api/signup', passport.authenticate('local-signup', {
+    successRedirect: '/',
+    failureRedirect: '/api/signup',
+    failureFlash: true
+  }));
+  app.post('/api/signup/:token', function(req, ...args) {
+    passport.authenticate('local-signup', {
+      successRedirect: '/api/joinLeague/'+req.params.token,
+      failureRedirect: '/api/signup/'+req.params.token,
+      failureFlash: true
+    })(req, ...args);
   });
 
   app.get('/api/logout', isLoggedIn, (req, res) => {
@@ -271,6 +281,7 @@ module.exports = (app, passport) => {
   })
   app.get('/api/getDraftRoom', isLoggedIn, (req, res) => {
     // res.redirect('/#/DraftRoom');
+    // open('http://localhost:4000/#/DraftRoom','');
     open('http://dynasty-kings.herokuapp.com/#/DraftRoom','');
     res.redirect('/')
   })

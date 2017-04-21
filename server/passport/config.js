@@ -35,7 +35,7 @@ let LocalSignup = new LocalStrategy({
           return done(null, user);
         })
       } else {
-        return done(null, false, req.flash('signupMessage', 'Username Already Taken'));
+        return done(null, false, req.flash('signupMessage', 'Username Taken'));
       }
     });
   });
