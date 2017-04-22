@@ -280,9 +280,9 @@ module.exports = (app, passport) => {
     res.sendFile(path.join(__dirname, '/../client/draftRoom.html'))
   })
   app.get('/api/getDraftRoom', isLoggedIn, (req, res) => {
-    res.redirect('/#/DraftRoom');
+    // res.redirect('/#/DraftRoom');
     // open('http://localhost:4000/#/DraftRoom','');
-    // open('http://dynasty-kings.herokuapp.com/#/DraftRoom','');
-    // res.redirect('/')
+    open('http://dynasty-kings.herokuapp.com/#/DraftRoom','');
+    res.redirect('/')
   })
 };
