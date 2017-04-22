@@ -6,6 +6,7 @@ export default class DRAFTROOM extends Component {
   render() {
     return (
       <div>
+        <Nav />
         <DraftRoom />
       </div>
     )
