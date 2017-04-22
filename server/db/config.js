@@ -1,5 +1,3 @@
-const DB = require('./tests.js');
-
 const knex = require('knex')({
   client: 'mysql',
   connection: {
