@@ -12,6 +12,7 @@ class DraftRoom extends Component {
     this.state = {
       activeDraftMembers: []
     }
+    setUpSocket()
     socket.on('IO_SERVER_HELLO', (serverMessage) => {
       console.log(`[socket.io] Server: ${serverMessage}`)
     })
@@ -25,12 +26,11 @@ class DraftRoom extends Component {
   }
 
   componentDidMount(){
-    setUpSocket()
     socket.emit('IO_CLIENT_JOIN_ROOM',this.props.leagueInfo.name);
   }
-  componentWillUnmount(){
-    socket.emit('IO_CLIENT_LEAVE_ROOM',this.props.leagueInfo.name);
-  }
+  // componentWillUnmount(){
+  //   socket.emit('IO_CLIENT_LEAVE_ROOM',this.props.leagueInfo.name);
+  // }
 
   displayMembers(){
     return this.state.activeDraftMembers.map(member => {
