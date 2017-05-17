@@ -9,9 +9,9 @@ export default class NBANav extends Component {
   render(){
     return(
       <div>
-        <Link to='/NBA'>My Team</Link><span>__</span>
-        <Link to='/NBA/PlayerStatsYTD'>Stats YTD</Link><span>__</span>
-        <Link to='/NBA/DailyStats'>Daily Stats</Link>
+        <Link className='leagueNav' to='/NBA'>My Team</Link><span>__</span>
+        <Link className='leagueNav' to='/NBA/PlayerStatsYTD'>Stats YTD</Link><span>__</span>
+        <Link className='leagueNav' to='/NBA/DailyStats'>Daily Stats</Link>
       </div>
     )
   }

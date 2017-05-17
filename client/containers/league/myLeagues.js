@@ -25,7 +25,7 @@ class MyLeagues extends Component {
       }
       return (
         <div key={league.id}>
-          <Link to='/leagueStandings' onClick={()=>{this.props.setLeagueInfo(league)}}>{league.name}</Link>
+          <Link className='leagueNav' to='/leagueStandings' onClick={()=>{this.props.setLeagueInfo(league)}}>{league.name}</Link>
         </div>
       )
     })
@@ -36,7 +36,7 @@ class MyLeagues extends Component {
       <div>
         <h1>My Leagues</h1>
         {this.listLeagues()}
-        <a href='/api/createNewLeague'>Create New League</a>
+        <a className='leagueNav' href='/api/createNewLeague'>Create New League</a>
       </div>
     )
   }

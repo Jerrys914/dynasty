@@ -36,6 +36,7 @@ class NFLDailyStats extends Component {
         } 
       });
     }
+    console.log(this.state.players)
     return this.state.players.filter(this.contains).map((player)=>{
       return(
         <tr key={player.fullName + Math.random()}>

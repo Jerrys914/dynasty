@@ -33,12 +33,12 @@ class LEAGUENAV extends Component {
       return (
         <div>
           <h1>{this.props.leagueInfo.name}</h1>
-          <Link to='/leagueStandings'>Standings</Link><span>__</span>
-          <Link to='/myTeams'>My Teams</Link><span>__</span>
-          <Link to='/NFL'>Football</Link><span>__</span>
-          <Link to='/NBA'>Basketball</Link><span>__</span>
-          <Link to='/MLB'>Baseball</Link><span>__</span>
-          <a href={"/api/getDraftRoom"}>Draft Room</a>
+          <Link className='leagueNav' to='/leagueStandings'>Standings</Link><span>__</span>
+          <Link className='leagueNav' to='/myTeams'>My Teams</Link><span>__</span>
+          <Link className='leagueNav' to='/NFL'>Football</Link><span>__</span>
+          <Link className='leagueNav' to='/NBA'>Basketball</Link><span>__</span>
+          <Link className='leagueNav' to='/MLB'>Baseball</Link><span>__</span>
+          <a className='leagueNav' href={"/api/getDraftRoom"}>Draft Room</a>
           {/*<a href={"/api/getDraftRoom/"+this.props.leagueInfo.name}>Draft Room</a>*/}
           <span style={{float:'right'}}>
             <lable>
@@ -52,12 +52,12 @@ class LEAGUENAV extends Component {
     return (
       <div>
         <h1>{this.props.leagueInfo.name}</h1>
-        <Link to='/leagueStandings'>Standings</Link><span>__</span>
-        <Link to='/myTeams'>My Teams</Link><span>__</span>
-        <Link to='/NFL'>Football</Link><span>__</span>
-        <Link to='/NBA'>Basketball</Link><span>__</span>
-        <Link to='/MLB'>Baseball</Link><span>__</span>
-        <a href="/api/getDraftRoom">Draft Room</a>
+        <Link className='leagueNav' to='/leagueStandings'>Standings</Link><span>__</span>
+        <Link className='leagueNav' to='/myTeams'>My Teams</Link><span>__</span>
+        <Link className='leagueNav' to='/NFL'>Football</Link><span>__</span>
+        <Link className='leagueNav' to='/NBA'>Basketball</Link><span>__</span>
+        <Link className='leagueNav' to='/MLB'>Baseball</Link><span>__</span>
+        <a className='leagueNav' href="/api/getDraftRoom">Draft Room</a>
       </div>
     )
   }

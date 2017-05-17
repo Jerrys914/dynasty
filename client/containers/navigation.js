@@ -17,18 +17,18 @@ class Navigation extends Component {
     if(!this.props.userInfo) {
       return(
         <div>
-          <Link to='/'>My Leagues</Link><span>__</span>
+          <Link className='leagueNav' to='/'>My Leagues</Link><span>__</span>
         </div>
       )
     }
     return(
       <div>
         <div>
-          <Link to='/'>My Leagues</Link>
+          <Link className='leagueNav' to='/'>My Leagues</Link>
         </div>
         <div style={{float: 'right'}}>
           <b>Welcome, {this.props.userInfo.username}! </b>
-          <a href='/api/logout'>Logout</a>
+          <a className='leagueNav' href='/api/logout'>Logout</a>
         </div>
       </div>
     )

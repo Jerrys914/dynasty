@@ -2,27 +2,31 @@ import React, { Component} from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Link } from 'react-router';
-import setUpSocket from '../../socket'
+// import setUpSocket from '../../socket'
 import socketIOClient from 'socket.io-client'
-const socket = socketIOClient(window.location.host)
+const socket = socketIOClient(window.location.host);
+const setUpSocket = () => {
+  socket.on('connect', () => {
+    console.log('[socket.io] Connected.')
+  })
+  socket.on('disconnect', () => {
+    console.log('[socket.io] Disconnected.')
+  })
+}
 
 class DraftRoom extends Component {
   constructor(props) {
     super(props);
     this.state = {
       activeDraftMembers: []
-    }
-    setUpSocket()
-    socket.on('IO_SERVER_HELLO', (serverMessage) => {
-      console.log(`[socket.io] Server: ${serverMessage}`)
-    })
-    socket.on('IO_SERVER_DRAFT_MEMBERS', (members) => {
-      console.log('MEMBERS: ', members)
-      this.setState({activeDraftMembers: members})
-    })
+    };
+    setUpSocket;
     window.onbeforeunload = () => {
       socket.emit('IO_CLIENT_LEAVE_ROOM',this.props.leagueInfo.name);
-    }
+    };
+    socket.on('IO_SERVER_DRAFT_MEMBERS', (members) => {
+      this.setState({activeDraftMembers: members})
+    });
   }
 
   componentDidMount(){
@@ -35,7 +39,7 @@ class DraftRoom extends Component {
   displayMembers(){
     return this.state.activeDraftMembers.map(member => {
       return(
-        <li key={member}>{member}</li>
+        <li key={member} style={{'textDecoration':'line-through'}}>{member}</li>
       )
     })
   }
@@ -56,6 +60,7 @@ class DraftRoom extends Component {
 const mapStateToProps = (state) => {
   return {
     leagueInfo: state.LeagueInfo,
+    leagueMembers: state.LeagueMembers,
     draftRoomMembers: state.DraftRoomMembers
   }
 };

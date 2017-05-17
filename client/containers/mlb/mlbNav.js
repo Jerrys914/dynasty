@@ -9,9 +9,9 @@ export default class MLBNav extends Component {
   render(){
     return(
       <div>
-        <Link to='/MLB'>My Team</Link><span>__</span>
-        <Link to='/MLB/PlayerStatsYTD'>Stats YTD</Link><span>__</span>
-        <Link to='/MLB/DailyStats'>Daily Stats</Link>
+        <Link className='leagueNav' to='/MLB'>My Team</Link><span>__</span>
+        <Link className='leagueNav' to='/MLB/PlayerStatsYTD'>Stats YTD</Link><span>__</span>
+        <Link className='leagueNav' to='/MLB/DailyStats'>Daily Stats</Link>
       </div>
     )
   }
