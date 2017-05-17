@@ -11,7 +11,8 @@ export default class NBANav extends Component {
       <div>
         <Link className='leagueNav' to='/NBA'>My Team</Link><span>__</span>
         <Link className='leagueNav' to='/NBA/PlayerStatsYTD'>Stats YTD</Link><span>__</span>
-        <Link className='leagueNav' to='/NBA/DailyStats'>Daily Stats</Link>
+        <Link className='leagueNav' to='/NBA/DailyStats'>Daily Stats</Link><span>__</span>
+        <a className='leagueNav' href={"/api/getDraftRoom"}>Draft Room</a>
       </div>
     )
   }

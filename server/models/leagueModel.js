@@ -52,7 +52,7 @@ const createNewLeague = (name, user) => {
   .then(league => {
     return knex('Years').insert({year:year, leagueID:league[0]})
     .then(year => {
-      return knex('Members').insert({name: user.username+'\'s franchise', yearID: year[0], userID: user.id, isComish:true})
+      return knex('Members').insert({name: user.username, yearID: year[0], userID: user.id, isComish:true})
       .then(member => {
         TeamModel.createTeam(user.username, 'football', member[0])
         TeamModel.createTeam(user.username, 'basketball', member[0])
@@ -68,7 +68,7 @@ const joinLeague = (leagueId, yearId, user) => {
     yearID: yearId
   }).then(member => {
     if(member.length === 0){
-      return knex('Members').insert({name: user.username+'\'s franchise', yearID: yearId, userID: user.id, isComish:false})
+      return knex('Members').insert({name: user.username, yearID: yearId, userID: user.id, isComish:false})
       .then(member => {
         TeamModel.createTeam(user.username, 'football', member[0])
         TeamModel.createTeam(user.username, 'basketball', member[0])

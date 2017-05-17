@@ -22,25 +22,31 @@ class DraftRoom extends Component {
     };
     setUpSocket;
     window.onbeforeunload = () => {
-      socket.emit('IO_CLIENT_LEAVE_ROOM',this.props.leagueInfo.name);
+      socket.emit('IO_CLIENT_LEAVE_ROOM',this.props.leagueInfo.name, this.props.activeSport);
     };
     socket.on('IO_SERVER_DRAFT_MEMBERS', (members) => {
-      this.setState({activeDraftMembers: members})
+      this.setState({activeDraftMembers: members.members})
     });
   }
 
   componentDidMount(){
-    socket.emit('IO_CLIENT_JOIN_ROOM',this.props.leagueInfo.name);
+    socket.emit('IO_CLIENT_JOIN_ROOM',this.props.leagueInfo.name, this.props.activeSport);
   }
   // componentWillUnmount(){
   //   socket.emit('IO_CLIENT_LEAVE_ROOM',this.props.leagueInfo.name);
   // }
 
   displayMembers(){
-    return this.state.activeDraftMembers.map(member => {
-      return(
-        <li key={member} style={{'textDecoration':'line-through'}}>{member}</li>
-      )
+    return this.props.leagueMembers.map(member => {
+      if(this.state.activeDraftMembers.includes(member.name)){
+        return(
+          <li key={member.name}>{member.name}</li>
+        )
+      } else {
+        return(
+          <li key={member.name} style={{'textDecoration':'line-through'}}>{member.name}</li>
+        )
+      }
     })
   }
 
@@ -59,6 +65,7 @@ class DraftRoom extends Component {
 
 const mapStateToProps = (state) => {
   return {
+    activeSport: state.ActiveSport,
     leagueInfo: state.LeagueInfo,
     leagueMembers: state.LeagueMembers,
     draftRoomMembers: state.DraftRoomMembers

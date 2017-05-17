@@ -1,16 +1,17 @@
 import { combineReducers } from 'redux';
-import NBASeasonStats from './nba/playerStatsYTD.js';
-import NBADailyStats from './nba/dailyStats.js';
-import NFLSeasonStats from './nfl/playerStatsYTD.js';
-import NFLDailyStats from './nfl/dailyStats.js';
-import MLBSeasonStats from './mlb/playerStatsYTD.js';
-import MLBDailyStats from './mlb/dailyStats.js';
-import MyLeagues from './league/myLeagues.js';
-import MyTeams from './league/myTeams.js';
-import LeagueMembers from './league/leagueMembers.js';
-import LeagueInfo from './league/leagueInfo.js';
-import UserInfo from './user/userInfo.js';
-import DraftRoomMembers from './league/draftRoom.js';
+import NBASeasonStats from './nba/playerStatsYTD';
+import NBADailyStats from './nba/dailyStats';
+import NFLSeasonStats from './nfl/playerStatsYTD';
+import NFLDailyStats from './nfl/dailyStats';
+import MLBSeasonStats from './mlb/playerStatsYTD';
+import MLBDailyStats from './mlb/dailyStats';
+import MyLeagues from './league/myLeagues';
+import MyTeams from './league/myTeams';
+import LeagueMembers from './league/leagueMembers';
+import LeagueInfo from './league/leagueInfo';
+import UserInfo from './user/userInfo';
+import DraftRoomMembers from './league/draftRoom';
+import ActiveSport from './league/activeSport';
 
 let rootReducer = combineReducers({
   NBASeasonStats,
@@ -23,6 +24,7 @@ let rootReducer = combineReducers({
   MyTeams,
   LeagueMembers,
   LeagueInfo,
+  ActiveSport,
   UserInfo,
   DraftRoomMembers
 });

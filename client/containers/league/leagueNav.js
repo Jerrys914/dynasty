@@ -2,7 +2,9 @@ import React, { Component} from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Link } from 'react-router';
-import sendLeagueInvite from '../../actions/league/joinLeague.js';
+import sendLeagueInvite from '../../actions/league/joinLeague';
+import setActiveSport from '../../actions/league/setActiveSport';
+
 
 class LEAGUENAV extends Component {
   constructor(props){
@@ -33,13 +35,11 @@ class LEAGUENAV extends Component {
       return (
         <div>
           <h1>{this.props.leagueInfo.name}</h1>
-          <Link className='leagueNav' to='/leagueStandings'>Standings</Link><span>__</span>
-          <Link className='leagueNav' to='/myTeams'>My Teams</Link><span>__</span>
-          <Link className='leagueNav' to='/NFL'>Football</Link><span>__</span>
-          <Link className='leagueNav' to='/NBA'>Basketball</Link><span>__</span>
-          <Link className='leagueNav' to='/MLB'>Baseball</Link><span>__</span>
-          <a className='leagueNav' href={"/api/getDraftRoom"}>Draft Room</a>
-          {/*<a href={"/api/getDraftRoom/"+this.props.leagueInfo.name}>Draft Room</a>*/}
+          <Link onClick={()=>{this.props.setActiveSport(null)}} className='leagueNav' to='/leagueStandings'>Standings</Link><span>__</span>
+          <Link onClick={()=>{this.props.setActiveSport(null)}} className='leagueNav' to='/myTeams'>My Teams</Link><span>__</span>
+          <Link onClick={()=>{this.props.setActiveSport('Football')}} className='leagueNav' to='/NFL'>Football</Link><span>__</span>
+          <Link onClick={()=>{this.props.setActiveSport('Basketball')}} className='leagueNav' to='/NBA'>Basketball</Link><span>__</span>
+          <Link onClick={()=>{this.props.setActiveSport('Baseball')}} className='leagueNav' to='/MLB'>Baseball</Link>
           <span style={{float:'right'}}>
             <lable>
               <button onClick={()=>{ if(this.state.inviteEmail.length>0){this.props.sendLeagueInvite(this.props.leagueInfo.id, this.state.inviteEmail); this.setState({inviteEmail:''})}}}>Send Invite</button>
@@ -52,12 +52,11 @@ class LEAGUENAV extends Component {
     return (
       <div>
         <h1>{this.props.leagueInfo.name}</h1>
-        <Link className='leagueNav' to='/leagueStandings'>Standings</Link><span>__</span>
-        <Link className='leagueNav' to='/myTeams'>My Teams</Link><span>__</span>
-        <Link className='leagueNav' to='/NFL'>Football</Link><span>__</span>
-        <Link className='leagueNav' to='/NBA'>Basketball</Link><span>__</span>
-        <Link className='leagueNav' to='/MLB'>Baseball</Link><span>__</span>
-        <a className='leagueNav' href="/api/getDraftRoom">Draft Room</a>
+        <Link onClick={()=>{this.props.setActiveSport(null)}} className='leagueNav' to='/leagueStandings'>Standings</Link><span>__</span>
+        <Link onClick={()=>{this.props.setActiveSport(null)}} className='leagueNav' to='/myTeams'>My Teams</Link><span>__</span>
+        <Link onClick={()=>{this.props.setActiveSport('Football')}} className='leagueNav' to='/NFL'>Football</Link><span>__</span>
+        <Link onClick={()=>{this.props.setActiveSport('Basketball')}} className='leagueNav' to='/NBA'>Basketball</Link><span>__</span>
+        <Link onClick={()=>{this.props.setActiveSport('Baseball')}} className='leagueNav' to='/MLB'>Baseball</Link>
       </div>
     )
   }
@@ -77,4 +76,4 @@ const mapStateToProps = state => {
   }
 }
 
-export default connect(mapStateToProps, { sendLeagueInvite })(LEAGUENAV);
+export default connect(mapStateToProps, { sendLeagueInvite, setActiveSport })(LEAGUENAV);
