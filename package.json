@@ -61,6 +61,8 @@
     "path": "^0.12.7",
     "react": "^15.4.2",
     "react-dom": "^15.4.2",
+    "react-popup": "^0.8.0",
+    "react-portal-tooltip": "^1.1.5",
     "react-promise": "^1.1.2",
     "react-redux": "^4.0.0",
     "react-router": "^2.8.1",

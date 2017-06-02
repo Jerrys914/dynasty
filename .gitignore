@@ -18,6 +18,7 @@ coverage
 # Compiled Dirs (http://nodejs.org/api/addons.html)
 build/
 .DS_Store
+client/public/
 
 # Dependency directorys
 node_modules/

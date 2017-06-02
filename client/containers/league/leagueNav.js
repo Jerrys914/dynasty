@@ -42,7 +42,12 @@ class LEAGUENAV extends Component {
           <Link onClick={()=>{this.props.setActiveSport('Baseball')}} className='leagueNav' to='/MLB'>Baseball</Link>
           <span style={{float:'right'}}>
             <lable>
-              <button onClick={()=>{ if(this.state.inviteEmail.length>0){this.props.sendLeagueInvite(this.props.leagueInfo.id, this.state.inviteEmail); this.setState({inviteEmail:''})}}}>Send Invite</button>
+              <button onClick={()=>{ 
+                if(this.state.inviteEmail.length>0) {
+                  this.props.sendLeagueInvite(this.props.leagueInfo.id, this.state.inviteEmail); 
+                  this.setState({inviteEmail:''})
+                }
+              }}>Send Invite</button>
             </lable><br />
             <input value={this.state.inviteEmail} onChange={this.handleEmailInput} />
           </span>
