@@ -61,7 +61,7 @@ class DraftRoom extends Component {
   showTooltip(player) {
     this.state.isTooltipActive[player] = true;
     this.forceUpdate()
-  }
+  };
   hideTooltip(player) {
     this.state.isTooltipActive[player] = false;
     this.forceUpdate()
@@ -69,14 +69,13 @@ class DraftRoom extends Component {
   draftPlayer(playerName){
     let arr = this.state.draftedPlayers;
     arr.push(playerName);
-    console.log('ARR: ',arr)
     console.log(playerName + ' Drafted');
+    console.log('Drafted Players: ',arr)
     this.setState({draftedPlayers:arr})
-    // this.forceUpdate();
-  }
+  };
   filterDrafted(val){
     return this.state.draftedPlayers.indexOf(val.fullName) < 0;
-  }
+  };
   displayMembers(){
     return this.props.leagueMembers.map(member => {
       if(this.state.activeDraftMembers.includes(member.name)){
@@ -89,27 +88,26 @@ class DraftRoom extends Component {
         )
       }
     })
-  }
+  };
 
   contains(value) {
     return value.fullName.toLowerCase().indexOf(this.state.filter.toLowerCase()) >= 0;
-  }
+  };
 
   handleChange(event) {
     this.setState({filter: event.target.value});
-  }
+  };
 
   handleSelect(event) {
     this.setState({display: event.target.value});
-  }
-
+  };
   handlePosition(event){
     this.setState({position: event.target.value})
-  }
+  };
   filterDraftedPlayers(){
     let result = [];
 
-  }
+  };
   positionFilter(playersArr, position){
     if(position === 'all'){
       return playersArr
@@ -121,8 +119,7 @@ class DraftRoom extends Component {
       }
     });
     return result;
-  }
-
+  };
   displayStats(){ 
     if(this.props.mlbSeasonStats.playerstatsentry){
       this.state.players = { all: [], batters: [], pitchers: [] };
@@ -166,7 +163,7 @@ class DraftRoom extends Component {
         )
       }
       const filterForPopup = player.fullName.split(' ').join('').split('.').join('').split("'").join('') + player.teamAbv + player.position;
-      return(
+      return (
         <tr key={player.fullName + player.teamAbv + player.position} onClick={() => { console.log('Player Selected') }}>
           <td onMouseOver={() => this.showTooltip(filterForPopup)} onMouseLeave={() => this.hideTooltip(filterForPopup)}>{player.fullName}</td>
           <td onMouseOver={() => this.showTooltip(filterForPopup)} onMouseLeave={() => this.hideTooltip(filterForPopup)}>{player.teamAbv}</td>
@@ -180,8 +177,7 @@ class DraftRoom extends Component {
         </tr>
       )
     })
-  }
-
+  };
   renderSelect(){
     if(this.state.display === 'batters'){
       return (
@@ -198,8 +194,7 @@ class DraftRoom extends Component {
       )
     } 
     return
-  }
-
+  };
   renderHeader(){
     if(this.state.display === 'batters'){
       return (
@@ -236,8 +231,7 @@ class DraftRoom extends Component {
         <th>Position</th>
       </tr>
     )
-  }
-
+  };
   render(){
 
     if(this.state.display === 'pitchers'){
@@ -289,7 +283,6 @@ class DraftRoom extends Component {
     )
   }
 };
-
 const mapStateToProps = (state) => {
   return {
     activeSport: state.ActiveSport,
